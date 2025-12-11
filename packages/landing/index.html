@@ -817,27 +817,32 @@
                     <p class="text-sm text-slate-500">Оставьте заявку — мы перезвоним в течение 30 минут.</p>
                 </div>
 
-                <form class="space-y-4">
+                <form id="lead-form-submit" class="space-y-4">
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1 ml-1">Ваше имя</label>
-                        <input type="text" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="Иван Иванов">
+                        <input id="lead-name" name="name" type="text" required class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="Иван Иванов">
                     </div>
-                    
+
                     <div>
                         <label class="block text-xs font-medium text-slate-700 mb-1 ml-1">Телефон (WhatsApp)</label>
-                        <input type="tel" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="+33 ...">
+                        <input id="lead-phone" name="phone" type="tel" required class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="+33 ...">
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1 ml-1">Откуда</label>
                             <div class="relative">
-                                <select class="w-full appearance-none bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option>Франция</option>
-                                    <option>Германия</option>
-                                    <option>Италия</option>
-                                    <option>Испания</option>
-                                    <option>Англия</option>
+                                <select id="lead-origin" name="origin" required class="w-full appearance-none bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="45">Франция</option>
+                                    <option value="46">Германия</option>
+                                    <option value="48">Италия</option>
+                                    <option value="47">Испания</option>
+                                    <option value="51">Австрия</option>
+                                    <option value="49">Бельгия</option>
+                                    <option value="50">Нидерланды</option>
+                                    <option value="53">Польша</option>
+                                    <option value="54">Чехия</option>
+                                    <option value="52">Швейцария</option>
                                 </select>
                                 <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                                     <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
@@ -847,11 +852,19 @@
                         <div>
                             <label class="block text-xs font-medium text-slate-700 mb-1 ml-1">Куда</label>
                             <div class="relative">
-                                <select class="w-full appearance-none bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option>Россия</option>
-                                    <option>Молдова</option>
-                                    <option>Беларусь</option>
-                                    <option>Казахстан</option>
+                                <select id="lead-destination" name="destination" required class="w-full appearance-none bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="55">Россия</option>
+                                    <option value="59">Молдова</option>
+                                    <option value="56">Беларусь</option>
+                                    <option value="57">Казахстан</option>
+                                    <option value="58">Украина</option>
+                                    <option value="60">Армения</option>
+                                    <option value="61">Грузия</option>
+                                    <option value="62">Азербайджан</option>
+                                    <option value="63">Узбекистан</option>
+                                    <option value="64">Кыргызстан</option>
+                                    <option value="65">Таджикистан</option>
+                                    <option value="66">Туркменистан</option>
                                 </select>
                                 <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                                     <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
@@ -860,7 +873,7 @@
                         </div>
                     </div>
 
-                    <button type="button" class="w-full py-4 bg-[#F5A623] hover:bg-[#E09212] text-white font-bold rounded-lg shadow-sm transition-all transform hover:-translate-y-0.5 text-sm">
+                    <button id="lead-submit-btn" type="submit" class="w-full py-4 bg-[#F5A623] hover:bg-[#E09212] text-white font-bold rounded-lg shadow-sm transition-all transform hover:-translate-y-0.5 text-sm">
                         Отправить заявку
                     </button>
                     

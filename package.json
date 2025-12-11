@@ -1,0 +1,45 @@
+{
+  "name": "sv-express",
+  "version": "1.0.0",
+  "description": "SV Express - International parcel delivery management system",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "echo 'Run dev in individual packages: npm run dev -w packages/api'",
+    "build": "npm run build -w packages/shared && npm run build -w packages/api && npm run build -w packages/admin && npm run build -w packages/portal",
+    "build:shared": "npm run build -w packages/shared",
+    "build:api": "npm run build -w packages/api",
+    "build:admin": "npm run build -w packages/admin",
+    "build:portal": "npm run build -w packages/portal",
+    "clean": "npm run clean -w packages/shared && npm run clean -w packages/api",
+    "lint": "eslint packages/*/src --ext .ts,.tsx",
+    "format": "prettier --write \"packages/*/src/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "type-check": "npm run type-check -w packages/api && npm run type-check -w packages/admin && npm run type-check -w packages/portal"
+  },
+  "keywords": [
+    "delivery",
+    "shipping",
+    "logistics",
+    "parcel",
+    "tracking"
+  ],
+  "author": "SV Express",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3"
+  }
+}

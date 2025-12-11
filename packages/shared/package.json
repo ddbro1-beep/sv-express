@@ -1,0 +1,22 @@
+{
+  "name": "@sv-express/shared",
+  "version": "1.0.0",
+  "description": "Shared types, constants, and utilities for SV Express",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "sv-express",
+    "shared",
+    "types"
+  ],
+  "author": "SV Express",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

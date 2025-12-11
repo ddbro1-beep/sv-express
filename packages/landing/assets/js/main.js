@@ -142,4 +142,72 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Lead form submission
+    const leadForm = document.getElementById('lead-form-submit');
+    const leadSubmitBtn = document.getElementById('lead-submit-btn');
+
+    if (leadForm) {
+        leadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const nameInput = document.getElementById('lead-name');
+            const phoneInput = document.getElementById('lead-phone');
+            const originInput = document.getElementById('lead-origin');
+            const destinationInput = document.getElementById('lead-destination');
+
+            if (!nameInput || !phoneInput || !originInput || !destinationInput) {
+                console.error('Form inputs not found');
+                return;
+            }
+
+            const formData = {
+                name: nameInput.value.trim(),
+                phone: phoneInput.value.trim(),
+                originCountryId: parseInt(originInput.value),
+                destinationCountryId: parseInt(destinationInput.value)
+            };
+
+            // Validate
+            if (!formData.name || !formData.phone) {
+                alert('Пожалуйста, заполните все поля');
+                return;
+            }
+
+            // Disable button and show loading
+            const originalText = leadSubmitBtn.textContent;
+            leadSubmitBtn.disabled = true;
+            leadSubmitBtn.textContent = 'Отправка...';
+            leadSubmitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+            try {
+                const response = await fetch('http://localhost:3000/api/leads', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Success
+                    alert('✅ Заявка отправлена! Мы перезвоним вам в течение 30 минут.');
+                    leadForm.reset();
+                } else {
+                    // Error from API
+                    throw new Error(result.error || 'Ошибка отправки заявки');
+                }
+            } catch (error) {
+                console.error('Lead submission error:', error);
+                alert('❌ Произошла ошибка. Пожалуйста, попробуйте позже или свяжитесь с нами напрямую.');
+            } finally {
+                // Restore button
+                leadSubmitBtn.disabled = false;
+                leadSubmitBtn.textContent = originalText;
+                leadSubmitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+        });
+    }
 });
