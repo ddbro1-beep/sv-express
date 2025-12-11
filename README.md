@@ -131,7 +131,7 @@ npm run build:portal
 
 The project is deployed on Vercel:
 
-- **Landing:** https://landing-b4gqiybv0-gregs-projects-c94a974d.vercel.app
+- **Landing:** https://sv-express-local.vercel.app (ddbro1-beeps-projects)
 - **API:** https://api-c95db0ov1-gregs-projects-c94a974d.vercel.app
 - **Admin:** https://admin-6s5anbhde-gregs-projects-c94a974d.vercel.app
 - **Portal:** Coming soon...
@@ -178,7 +178,7 @@ MIT
 
 ## 👥 Contact
 
-- **Website:** https://sv-express-one.vercel.app
+- **Website:** https://sv-express-local.vercel.app
 - **GitHub:** https://github.com/ddbro1-beep/sv-express
 - **Email:** support@sv-express.com
 
