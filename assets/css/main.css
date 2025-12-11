@@ -1,0 +1,256 @@
+:root {
+    --brand-primary: #2563EB;
+    --brand-primary-soft: #EEF2FF;
+    --brand-accent: #F5A623;
+    --brand-accent-strong: #E09212;
+    --surface: #FFFFFF;
+    --surface-muted: #F8FAFC;
+    --surface-alt: #F4F6FB;
+    --line: #E2E8F0;
+    --text-main: #1E293B;
+    --text-muted: #475569;
+    --text-subtle: #94A3B8;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+    --shadow-ghost: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--surface-muted);
+    color: var(--text-main);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #CBD5E1;
+    border-radius: 20px;
+}
+
+/* Rotate Animation: Alternate Reverse as requested */
+@keyframes rotate-slow {
+    0% { transform: rotate(-5deg); }
+    100% { transform: rotate(5deg); }
+}
+.animate-sway {
+    animation: rotate-slow 3s infinite alternate-reverse ease-in-out;
+}
+
+/* Custom Range Slider */
+input[type=range] {
+    -webkit-appearance: none; 
+    width: 100%; 
+    background: transparent;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3B82F6;
+    cursor: pointer;
+    margin-top: -8px; 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: #E2E8F0;
+    border-radius: 2px;
+}
+
+/* Hide scrollbar for nav but allow scroll */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Design system helpers */
+.ds-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-ghost);
+}
+
+.ds-card.elevated {
+    box-shadow: var(--shadow-soft);
+}
+
+.ds-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: var(--brand-primary-soft);
+    color: var(--brand-primary);
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+.ds-step-number {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--surface-muted);
+    border: 1px solid var(--line);
+    color: var(--brand-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    box-shadow: var(--shadow-ghost);
+}
+
+.ds-panel {
+    background: linear-gradient(180deg, rgba(37, 99, 235, 0.06) 0%, rgba(37, 99, 235, 0.01) 100%);
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+}
+
+.ds-list li + li {
+    border-top: 1px dashed rgba(148, 163, 184, 0.4);
+    padding-top: 12px;
+}
+
+.ds-section {
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+}
+
+.ds-title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ds-title-block h2 {
+    font-size: clamp(24px, 2vw, 32px);
+    font-weight: 700;
+}
+
+.ds-title-block p {
+    color: var(--text-muted);
+}
+
+.ds-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+.ds-step-card {
+    border: 1px solid var(--line);
+    background: var(--surface-alt);
+    border-radius: var(--radius-md);
+    padding: 14px 14px 12px;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 12px;
+    align-items: start;
+}
+
+.ds-step-card h3 {
+    margin: 0 0 4px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.ds-step-card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.ds-guide {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.ds-guide ol {
+    margin: 0;
+}
+
+.ds-guide li {
+    padding-left: 2px;
+}
+
+/* Form helpers */
+.input-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.pricing-card {
+    padding: 30px; /* ~25% больше базового p-6 (24px) */
+}
+
+/* Hero photo */
+.hero-photo {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    background: transparent;
+}
+
+.hero-photo img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.hero-photo .brand-pill {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(15, 23, 42, 0.85);
+    color: #E2E8F0;
+    padding: 10px 14px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    box-shadow: var(--shadow-soft);
+}
+
+.hero-photo .brand-pill img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+@media (min-width: 1024px) {
+    .ds-guide {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
