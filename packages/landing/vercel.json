@@ -1,6 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "echo 'No build needed for static site'",
+  "buildCommand": "npm run build",
+  "installCommand": "echo 'No dependencies to install'",
   "outputDirectory": ".",
   "public": true
 }

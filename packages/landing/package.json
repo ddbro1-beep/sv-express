@@ -1,0 +1,9 @@
+{
+  "name": "@sv-express/landing",
+  "version": "1.0.0",
+  "description": "SV Express Landing Page - Static Site",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'"
+  },
+  "private": true
+}
