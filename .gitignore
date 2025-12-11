@@ -1,0 +1,11 @@
+# macOS noise
+.DS_Store
+
+# Vercel local config
+.vercel
+
+# Image backups
+assets/img/originals/
+
+# Claude Code
+.claude/

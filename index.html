@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доставка посылок из Европы в Россию и СНГ | SV Express</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="antialiased selection:bg-blue-100 selection:text-blue-600">
+
+    <!-- Mobile Header (Visible on small screens only) -->
+    <header class="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50 flex items-center justify-between px-4">
+        <div class="font-bold text-xl tracking-tighter text-slate-800">SV EXPRESS</div>
+        <button class="p-2 text-slate-500" data-mobile-open="">
+            <span class="iconify" data-icon="lucide:menu" data-width="24" data-height="24"></span>
+        </button>
+    </header>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu" class="lg:hidden fixed inset-0 z-40 hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-mobile-close=""></div>
+        <div class="absolute top-0 right-0 h-full w-72 max-w-[85vw] bg-white shadow-xl flex flex-col">
+            <div class="flex items-center justify-between h-16 px-4 border-b border-slate-200">
+                <div class="font-bold text-lg tracking-tight text-slate-900">Меню</div>
+                <button class="p-2 text-slate-500 hover:text-slate-700" data-mobile-close="">
+                    <span class="iconify" data-icon="lucide:x" data-width="22"></span>
+                </button>
+            </div>
+            <nav class="flex-1 overflow-y-auto">
+                <ul class="p-4 space-y-2 text-sm font-medium text-slate-700">
+                    <li><a href="#hero" class="block px-3 py-2 rounded-lg hover:bg-slate-50">Главная</a></li>
+                    <li><a href="#calculator" class="block px-3 py-2 rounded-lg hover:bg-slate-50">Рассчитать</a></li>
+                    <li><a href="#how-it-works" class="block px-3 py-2 rounded-lg hover:bg-slate-50">Как это работает</a></li>
+                    <li><a href="#pricing" class="block px-3 py-2 rounded-lg hover:bg-slate-50">Тарифы</a></li>
+                    <li><a href="#geography" class="block px-3 py-2 rounded-lg hover:bg-slate-50">Направления</a></li>
+                    <li><a href="#tracking" class="block px-3 py-2 rounded-lg hover:bg-slate-50">Отслеживание</a></li>
+                    <li><a href="#reviews" class="block px-3 py-2 rounded-lg hover:bg-slate-50">Отзывы</a></li>
+                    <li><a href="#faq" class="block px-3 py-2 rounded-lg hover:bg-slate-50">FAQ</a></li>
+                </ul>
+            </nav>
+            <div class="p-4 border-t border-slate-200 space-y-3">
+                <a href="https://wa.me/33753540436" class="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-[#25D366] text-white font-semibold hover:bg-[#20bd5a] transition-colors">
+                    <span class="iconify" data-icon="lucide:message-circle" data-width="18"></span>
+                    WhatsApp
+                </a>
+                <a href="tel:+33753540436" class="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors">
+                    <span class="iconify" data-icon="lucide:phone" data-width="18"></span>
+                    Позвонить
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Navigation (Desktop) -->
+    <aside class="hidden lg:flex fixed top-0 left-0 bottom-0 w-64 bg-white border-r border-slate-200 flex-col z-40">
+        <div class="p-8 pb-4">
+            <div class="font-bold text-2xl tracking-tighter text-slate-900 mb-1">SV EXPRESS</div>
+            <p class="text-xs text-slate-400 font-medium tracking-wide">EUROPE TO CIS LOGISTICS</p>
+        </div>
+
+        <nav class="flex-1 px-4 py-6 overflow-y-auto no-scrollbar">
+            <ul class="space-y-1">
+                <li><a href="#hero" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg"><span class="iconify" data-icon="lucide:home" data-width="18"></span> Главная</a></li>
+                <li><a href="#calculator" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"><span class="iconify" data-icon="lucide:calculator" data-width="18"></span> Рассчитать</a></li>
+                <li><a href="#how-it-works" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"><span class="iconify" data-icon="lucide:workflow" data-width="18"></span> Как это работает</a></li>
+                <li><a href="#pricing" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"><span class="iconify" data-icon="lucide:tag" data-width="18"></span> Тарифы</a></li>
+                <li><a href="#geography" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"><span class="iconify" data-icon="lucide:map" data-width="18"></span> Направления</a></li>
+                <li><a href="#tracking" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"><span class="iconify" data-icon="lucide:search" data-width="18"></span> Отслеживание</a></li>
+                <li><a href="#reviews" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"><span class="iconify" data-icon="lucide:star" data-width="18"></span> Отзывы</a></li>
+                <li><a href="#faq" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-colors"><span class="iconify" data-icon="lucide:help-circle" data-width="18"></span> FAQ</a></li>
+            </ul>
+        </nav>
+
+        <div class="p-4 border-t border-slate-100 bg-slate-50/50">
+            <div class="flex items-center justify-between mb-4 px-2">
+                <span class="text-xs font-semibold text-slate-400">ЯЗЫК</span>
+                <div class="flex gap-2 text-xs font-semibold">
+                    <span class="text-blue-600 cursor-pointer">RU</span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors">EN</span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors">DE</span>
+                </div>
+            </div>
+            <a href="tel:+33753540436" class="flex items-center gap-3 px-4 py-3 bg-white border border-slate-200 rounded-lg shadow-sm hover:shadow-md transition-all group">
+                <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <span class="iconify" data-icon="lucide:phone" data-width="16"></span>
+                </div>
+                <div>
+                    <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Связь</div>
+                    <div class="text-xs font-semibold text-slate-900">+33 753 54 04 36</div>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="lg:ml-64 pt-16 lg:pt-0 min-h-screen">
+
+        <!-- SECTION 2: HERO -->
+        <section id="hero" class="relative overflow-hidden bg-white px-6 py-16 lg:py-24 xl:py-32 border-b border-slate-100">
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-orange-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+
+            <div class="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100 text-xs font-semibold tracking-wide mb-6 animate-sway">
+                        <span class="iconify" data-icon="lucide:plane" data-width="14"></span>
+                        ЕЖЕНЕДЕЛЬНЫЕ РЕЙСЫ ИЗ ЕВРОПЫ
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-slate-900 tracking-tight leading-[1.1] mb-6">
+                        Доставка из Европы <br>
+                        <span class="text-slate-400">в Россию и СНГ</span>
+                    </h1>
+                    
+                    <p class="text-lg text-slate-500 max-w-2xl leading-relaxed mb-8">
+                        Заберём посылку с вашего адреса во Франции, Германии, Италии или Испании. Доставим родным в Россию, Молдову, Беларусь или Казахстан. <span class="text-slate-800 font-medium">Без скрытых платежей.</span>
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 mb-10">
+                        <a href="#calculator" class="inline-flex justify-center items-center gap-2 px-6 py-3.5 bg-[#F5A623] hover:bg-[#E09212] text-white font-semibold rounded-lg shadow-sm shadow-orange-200 transition-all hover:-translate-y-0.5 text-sm">
+                            <span class="iconify" data-icon="lucide:calculator" data-width="18"></span>
+                            Рассчитать стоимость
+                        </a>
+                        <a href="#lead-form" class="inline-flex justify-center items-center gap-2 px-6 py-3.5 bg-white text-slate-700 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 font-semibold rounded-lg transition-all text-sm">
+                            Заказать курьера
+                        </a>
+                    </div>
+
+                    <div class="flex flex-wrap gap-6 text-sm text-slate-500 font-medium">
+                        <div class="flex items-center gap-2">
+                            <span class="iconify text-green-500" data-icon="lucide:check-circle" data-width="18"></span>
+                            10 000+ посылок
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="iconify text-green-500" data-icon="lucide:check-circle" data-width="18"></span>
+                            От 70€ за доставку
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="iconify text-green-500" data-icon="lucide:check-circle" data-width="18"></span>
+                            Таможня включена
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-photo">
+                    <img src="assets/img/hero-boxes.jpg" alt="Картонные коробки SV-Express">
+                    <div class="brand-pill">
+                        <span class="iconify" data-icon="lucide:package" data-width="18"></span>
+                        SV-EXPRESS
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PAIN POINTS -->
+        <section class="px-6 py-16 bg-slate-50">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl lg:text-3xl font-semibold text-slate-900 tracking-tight mb-10">Знакомые ситуации?</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                                <span class="iconify" data-icon="lucide:frown" data-width="20"></span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-slate-900 mb-1">Дорого отправлять</h3>
+                                <p class="text-sm text-slate-500">"DHL просит 150€ за 5 кг посылку. Это слишком дорого для подарков."</p>
+                            </div>
+                        </div>
+                        <div class="pl-14">
+                            <div class="flex items-center gap-2 text-sm text-green-600 font-medium">
+                                <span class="iconify" data-icon="lucide:check" data-width="16"></span>
+                                У нас доставка 10 кг — от 95€
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                                <span class="iconify" data-icon="lucide:file-question" data-width="20"></span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-slate-900 mb-1">Сложная таможня</h3>
+                                <p class="text-sm text-slate-500">"Не понимаю, как заполнять декларации и платить пошлины."</p>
+                            </div>
+                        </div>
+                        <div class="pl-14">
+                            <div class="flex items-center gap-2 text-sm text-green-600 font-medium">
+                                <span class="iconify" data-icon="lucide:check" data-width="16"></span>
+                                Мы сами оформляем документы
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                                <span class="iconify" data-icon="lucide:message-square-off" data-width="20"></span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-slate-900 mb-1">Нет поддержки</h3>
+                                <p class="text-sm text-slate-500">"Посылка застряла, а дозвониться до поддержки невозможно."</p>
+                            </div>
+                        </div>
+                        <div class="pl-14">
+                            <div class="flex items-center gap-2 text-sm text-green-600 font-medium">
+                                <span class="iconify" data-icon="lucide:check" data-width="16"></span>
+                                Личный менеджер в WhatsApp
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                                <span class="iconify" data-icon="lucide:shield-alert" data-width="20"></span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-slate-900 mb-1">Страх потери</h3>
+                                <p class="text-sm text-slate-500">"Боюсь, что вещи потеряются или разобьются в пути."</p>
+                            </div>
+                        </div>
+                        <div class="pl-14">
+                            <div class="flex items-center gap-2 text-sm text-green-600 font-medium">
+                                <span class="iconify" data-icon="lucide:check" data-width="16"></span>
+                                Контроль и страховка до 200€
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: HOW IT WORKS + GUIDE -->
+        <section id="how-it-works" class="px-6 py-16 bg-slate-50">
+            <div class="max-w-6xl mx-auto ds-section p-8 md:p-10">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+                    <div class="ds-title-block">
+                        <div class="ds-badge">
+                            <span class="iconify" data-icon="lucide:workflow" data-width="16"></span>
+                            Процесс
+                        </div>
+                        <h2>Как это работает</h2>
+                        <p class="text-sm">От заявки до вручения — чёткая схема и подробная инструкция.</p>
+                    </div>
+                    <a href="#lead-form" class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#F5A623] hover:bg-[#E09212] text-white font-semibold rounded-lg shadow-sm transition-colors text-sm">
+                        <span class="iconify" data-icon="lucide:mouse-pointer-click" data-width="18"></span>
+                        Оформить доставку
+                    </a>
+                </div>
+
+                <div class="ds-guide">
+                    <div class="space-y-3">
+                        <div class="ds-step-card">
+                            <span class="ds-step-number">1</span>
+                            <div>
+                                <h3>Заявка</h3>
+                                <p>Заполните форму или напишите в WhatsApp. Рассчитаем стоимость за 15 минут.</p>
+                            </div>
+                        </div>
+                        <div class="ds-step-card">
+                            <span class="ds-step-number">2</span>
+                            <div>
+                                <h3>Забор</h3>
+                                <p>Курьер приедет по вашему адресу в Европе (Пн–Пт, 09:00–18:00) и заберёт посылку.</p>
+                            </div>
+                        </div>
+                        <div class="ds-step-card">
+                            <span class="ds-step-number">3</span>
+                            <div>
+                                <h3>Доставка</h3>
+                                <p>Еженедельный рейс, таможенная очистка, страхование и онлайн‑отслеживание.</p>
+                            </div>
+                        </div>
+                        <div class="ds-step-card">
+                            <span class="ds-step-number">4</span>
+                            <div>
+                                <h3>Вручение</h3>
+                                <p>Доставим до отделения почты или курьером в руки получателю.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ds-panel p-6 md:p-7">
+                        <div class="flex items-center gap-2 mb-3 text-sm font-semibold text-blue-700">
+                            <span class="iconify" data-icon="lucide:book-open-check" data-width="18"></span>
+                            Инструкция по отправке
+                        </div>
+                        <ol class="ds-list space-y-3 text-sm text-slate-700 leading-relaxed list-decimal list-inside">
+                            <li>
+                                Прочная упаковка с местом под ярлык. Макс: сумма измерений 180 см, длина 100 см. Всё сверх — за доплату. Изучите требования к упаковке, запреты и обновлённые санкционные списки (15.03.2022, 24.06.24) и ограничения по животноводческой продукции.
+                            </li>
+                            <li>
+                                На главной странице нажмите «Заказать», заполните данные и выберите дату сбора. Можно вызвать курьера на дом (Пн–Пт 09:00–18:00).
+                            </li>
+                            <li>
+                                Оплата: PayPal, карта или счёт из письма в течение 24 часов. За перевес свыше 0,025 кг (0,02 кг для мелких) — доплата плюс админ‑сбор 20€.
+                            </li>
+                            <li>
+                                После брони придёт email с документами — распечатайте и наклейте. Если письма нет, проверьте спам или напишите нам. Этикетки обязательны.
+                            </li>
+                            <li>
+                                Каждая посылка оформляется отдельной формой (свой трек). Курьер может забрать все сразу — выберите одну дату.
+                            </li>
+                            <li>
+                                При превышении веса/габаритов возможны доплаты. Отслеживайте онлайн: хранение на отделении до 2 недель, дальше возможен возврат (до 6 месяцев). Есть вопросы — служба поддержки на связи.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: PRICING -->
+        <section id="pricing" class="px-6 py-16 bg-slate-50">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl lg:text-3xl font-semibold text-slate-900 tracking-tight mb-2 text-center">Прозрачные тарифы</h2>
+                <p class="text-slate-500 text-center mb-10 text-sm">Цена зависит от веса и направления. Нет скрытых доплат.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                    
+                    <!-- Card 1 -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="mb-4">
+                            <span class="inline-block p-2 rounded-lg bg-slate-100 text-slate-500 mb-3">
+                                <span class="iconify" data-icon="lucide:file" data-width="20"></span>
+                            </span>
+                            <h3 class="text-lg font-semibold text-slate-900">Документы</h3>
+                            <div class="flex items-baseline gap-1 mt-2">
+                                <span class="text-sm text-slate-500">от</span>
+                                <span class="text-3xl font-bold text-slate-900">30€</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-center gap-2 text-sm text-slate-600">
+                                <span class="iconify text-blue-500" data-icon="lucide:check" data-width="14"></span> Вес до 0.5 кг
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-600">
+                                <span class="iconify text-blue-500" data-icon="lucide:check" data-width="14"></span> 7-10 дней
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-600">
+                                <span class="iconify text-blue-500" data-icon="lucide:check" data-width="14"></span> Курьер включён
+                            </li>
+                        </ul>
+                        <a href="#lead-form" class="block w-full py-2.5 px-4 bg-white border border-slate-200 text-slate-700 hover:border-slate-300 rounded-lg text-center text-sm font-medium transition-colors">Отправить</a>
+                    </div>
+
+                    <!-- Card 2 (Featured) -->
+                    <div class="bg-white p-6 rounded-2xl border-2 border-blue-500 shadow-lg relative transform md:-translate-y-2">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full whitespace-nowrap">
+                            Популярный выбор
+                        </div>
+                        <div class="mb-4">
+                            <span class="inline-block p-2 rounded-lg bg-blue-50 text-blue-500 mb-3">
+                                <span class="iconify" data-icon="lucide:package" data-width="20"></span>
+                            </span>
+                            <h3 class="text-lg font-semibold text-slate-900">Посылка до 10 кг</h3>
+                            <div class="flex items-baseline gap-1 mt-2">
+                                <span class="text-sm text-slate-500">от</span>
+                                <span class="text-3xl font-bold text-slate-900">95€</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-center gap-2 text-sm text-slate-600">
+                                <span class="iconify text-blue-500" data-icon="lucide:check" data-width="14"></span> Одежда, обувь, подарки
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-600">
+                                <span class="iconify text-blue-500" data-icon="lucide:check" data-width="14"></span> Курьер включён
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-600">
+                                <span class="iconify text-blue-500" data-icon="lucide:check" data-width="14"></span> Таможня включена
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-600">
+                                <span class="iconify text-blue-500" data-icon="lucide:check" data-width="14"></span> Трекинг 24/7
+                            </li>
+                        </ul>
+                        <a href="#lead-form" class="block w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-center text-sm font-medium transition-colors">Оформить доставку</a>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="mb-4">
+                            <span class="inline-block p-2 rounded-lg bg-slate-100 text-slate-500 mb-3">
+                                <span class="iconify" data-icon="lucide:box" data-width="20"></span>
+                            </span>
+                            <h3 class="text-lg font-semibold text-slate-900">Посылка до 20 кг</h3>
+                            <div class="flex items-baseline gap-1 mt-2">
+                                <span class="text-sm text-slate-500">от</span>
+                                <span class="text-3xl font-bold text-slate-900">156€</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-center gap-2 text-sm text-slate-600">
+                                <span class="iconify text-blue-500" data-icon="lucide:check" data-width="14"></span> Крупные вещи
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-600">
+                                <span class="iconify text-blue-500" data-icon="lucide:check" data-width="14"></span> Переезд
+                            </li>
+                            <li class="flex items-center gap-2 text-sm text-slate-600">
+                                <span class="iconify text-blue-500" data-icon="lucide:check" data-width="14"></span> Полное сопровождение
+                            </li>
+                        </ul>
+                        <a href="#lead-form" class="block w-full py-2.5 px-4 bg-white border border-slate-200 text-slate-700 hover:border-slate-300 rounded-lg text-center text-sm font-medium transition-colors">Оформить доставку</a>
+                    </div>
+                </div>
+                
+                <div class="mt-8 p-4 bg-yellow-50 border border-yellow-100 rounded-lg flex gap-3">
+                    <span class="iconify text-yellow-600 shrink-0 mt-0.5" data-icon="lucide:info" data-width="16"></span>
+                    <p class="text-xs text-yellow-800">
+                        <strong>Таможня:</strong> Товары свыше 200$ облагаются пошлиной 20% от суммы превышения. Б/у вещи и документы — без пошлины.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: CALCULATOR -->
+        <section id="calculator" class="px-6 py-16 bg-white border-y border-slate-100">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-2xl lg:text-3xl font-semibold text-slate-900 tracking-tight mb-8 text-center">Калькулятор доставки</h2>
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden">
+                    <div class="p-6 md:p-8 space-y-8">
+                        
+                        <!-- Step 1: Type -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-3">Что отправляете?</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="type" value="used" class="peer sr-only" checked="">
+                                    <div class="px-4 py-3 rounded-lg border border-slate-200 text-center text-sm text-slate-600 peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 transition-all">
+                                        Б/у вещи
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="type" value="docs" class="peer sr-only">
+                                    <div class="px-4 py-3 rounded-lg border border-slate-200 text-center text-sm text-slate-600 peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 transition-all">
+                                        Документы
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="type" value="new" class="peer sr-only">
+                                    <div class="px-4 py-3 rounded-lg border border-slate-200 text-center text-sm text-slate-600 peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 transition-all">
+                                        Новые (подарки)
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Weight -->
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-slate-700">Вес посылки</label>
+                                <span id="weight-value" class="text-sm font-bold text-blue-600">8 кг</span>
+                            </div>
+                            <input id="weight-range" type="range" min="1" max="30" value="8" class="w-full">
+                            <div class="flex justify-between mt-1 text-xs text-slate-400">
+                                <span>1 кг</span>
+                                <span>30 кг</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Route -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Откуда</label>
+                                <div class="relative">
+                                    <select id="from-country" class="w-full appearance-none bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white">
+                                        <option>Франция</option>
+                                        <option>Германия</option>
+                                        <option>Италия</option>
+                                        <option>Испания</option>
+                                        <option>Англия</option>
+                                        <option>Россия</option>
+                                        <option>Молдова</option>
+                                        <option>Беларусь</option>
+                                        <option>Казахстан</option>
+                                    </select>
+                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                        <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Куда</label>
+                                <div class="relative">
+                                    <select id="to-country" class="w-full appearance-none bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white">
+                                        <option>Россия</option>
+                                        <option>Молдова</option>
+                                        <option>Беларусь</option>
+                                        <option>Казахстан</option>
+                                        <option>Франция</option>
+                                        <option>Германия</option>
+                                        <option>Италия</option>
+                                        <option>Испания</option>
+                                        <option>Англия</option>
+                                    </select>
+                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                        <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Result Block -->
+                    <div class="bg-slate-50 px-6 py-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-6">
+                        <div>
+                            <p class="text-xs text-slate-500 mb-1">Примерная стоимость:</p>
+                            <p id="calc-price" class="text-3xl font-bold text-slate-900">~95€</p>
+                            <p id="calc-note" class="text-[10px] text-green-600 flex items-center gap-1 mt-1">
+                                <span class="iconify" data-icon="lucide:check-circle" data-width="10"></span>
+                                Включен забор и таможня
+                            </p>
+                        </div>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <a href="https://wa.me/33753540436" class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg text-sm font-semibold transition-colors">
+                                <span class="iconify" data-icon="lucide:message-circle" data-width="18"></span>
+                            </a>
+                            <a href="#lead-form" class="flex-1 sm:flex-none flex items-center justify-center px-6 py-3 bg-[#F5A623] hover:bg-[#E09212] text-white rounded-lg text-sm font-semibold transition-colors shadow-sm">
+                                Оформить доставку
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: GEOGRAPHY -->
+        <section id="geography" class="px-6 py-16 bg-slate-50">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-12">
+                    <div class="md:w-1/2">
+                        <h2 class="text-2xl font-semibold text-slate-900 tracking-tight mb-6">Откуда забираем</h2>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <span class="text-xl">🇫🇷</span>
+                                <div>
+                                    <strong class="block text-sm text-slate-900">Франция</strong>
+                                    <span class="text-xs text-slate-500">Париж, Ницца, Лион, Марсель, Страсбург</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-xl">🇩🇪</span>
+                                <div>
+                                    <strong class="block text-sm text-slate-900">Германия</strong>
+                                    <span class="text-xs text-slate-500">Берлин, Мюнхен, Франкфурт, Гамбург, Кёльн</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-xl">🇮🇹</span>
+                                <div>
+                                    <strong class="block text-sm text-slate-900">Италия</strong>
+                                    <span class="text-xs text-slate-500">Рим, Милан, Турин, Венеция, Неаполь</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-xl">🇪🇸</span>
+                                <div>
+                                    <strong class="block text-sm text-slate-900">Испания</strong>
+                                    <span class="text-xs text-slate-500">Мадрид, Барселона, Валенсия, Аликанте</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="hidden md:block w-px bg-slate-200"></div>
+
+                    <div class="md:w-1/2">
+                        <h2 class="text-2xl font-semibold text-slate-900 tracking-tight mb-6">Куда доставляем</h2>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <span class="text-xl">🇷🇺</span>
+                                <div>
+                                    <strong class="block text-sm text-slate-900">Россия</strong>
+                                    <span class="text-xs text-slate-500">Москва, СПб, Казань, Новосибирск и все регионы</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-xl">🇲🇩</span>
+                                <div>
+                                    <strong class="block text-sm text-slate-900">Молдова</strong>
+                                    <span class="text-xs text-slate-500">Кишинёв и вся территория</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-xl">🇧🇾</span>
+                                <div>
+                                    <strong class="block text-sm text-slate-900">Беларусь</strong>
+                                    <span class="text-xs text-slate-500">Минск, Брест, Гродно, Гомель</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-xl">🇰🇿</span>
+                                <div>
+                                    <strong class="block text-sm text-slate-900">Казахстан</strong>
+                                    <span class="text-xs text-slate-500">Алматы, Астана, Караганда</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 8: TRACKING -->
+        <section id="tracking" class="px-6 py-16 bg-blue-600 text-white">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-2xl font-semibold tracking-tight mb-2">Где моя посылка?</h2>
+                
+                <form class="flex flex-col sm:flex-row gap-2" onsubmit="return false;">
+                    <input id="track-input" type="text" placeholder="Например: SV-2024-00142" class="flex-1 px-4 py-3 rounded-lg text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-white/50">
+                    <button id="track-button" type="button" class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg text-sm hover:bg-blue-50 transition-colors">
+                        Отследить
+                    </button>
+                </form>
+
+                <div class="mt-6 bg-white/10 border border-white/20 rounded-lg p-4 text-sm leading-relaxed text-blue-50">
+                    Не переживайте! Для заказов оформленных менее 1 - 2 недель назад, это нормально.<br>
+                    Как правило, информация начинает обновляться через 3-7 дней, после получения трек-кода.<br>
+                    Иногда, с момента получения трек-кода, до начала отслеживания может пройти 2 недели.<br><br>
+                    Если трек-код не отслеживается более 14 дней, как на нашем сайте так и на сайте торговой площадки,
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: TESTIMONIALS -->
+        <section id="reviews" class="px-6 py-16 bg-white">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex items-center justify-between mb-10">
+                    <h2 class="text-2xl font-semibold text-slate-900 tracking-tight">Отзывы клиентов</h2>
+                    <div class="flex gap-1 text-yellow-400">
+                        <span class="iconify" data-icon="lucide:star" data-width="16" data-fill="currentColor"></span>
+                        <span class="iconify" data-icon="lucide:star" data-width="16" data-fill="currentColor"></span>
+                        <span class="iconify" data-icon="lucide:star" data-width="16" data-fill="currentColor"></span>
+                        <span class="iconify" data-icon="lucide:star" data-width="16" data-fill="currentColor"></span>
+                        <span class="iconify" data-icon="lucide:star" data-width="16" data-fill="currentColor"></span>
+                        <span class="text-slate-400 text-xs ml-2 font-medium text-black">4.9/5</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Review 1 -->
+                    <div class="p-6 bg-slate-50 rounded-xl">
+                        <p class="text-sm text-slate-600 mb-4 leading-relaxed">"Отправляю маме вещи из Парижа уже 3 года. Всегда вовремя, цены адекватные, менеджер Анна — просто золото! Отвечает даже в выходные."</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">О</div>
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900">Ольга</div>
+                                <div class="text-[10px] text-slate-400">Париж → Воронеж</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="p-6 bg-slate-50 rounded-xl">
+                        <p class="text-sm text-slate-600 mb-4 leading-relaxed">"Наконец-то нашла адекватную доставку в Молдову! DHL ломил 200€, здесь отправила за 90€. Рекомендую всем землякам."</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-xs">Н</div>
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900">Наталья</div>
+                                <div class="text-[10px] text-slate-400">Рим → Кишинёв</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="p-6 bg-slate-50 rounded-xl">
+                        <p class="text-sm text-slate-600 mb-4 leading-relaxed">"Срочно нужно было отправить документы. Забрали на следующий день, через неделю уже были в Москве. Спасибо!"</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-xs">Д</div>
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900">Дмитрий</div>
+                                <div class="text-[10px] text-slate-400">Ницца → Москва</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 10: FAQ -->
+        <section id="faq" class="px-6 py-16 bg-slate-50 border-t border-slate-100">
+            <div class="max-w-2xl mx-auto">
+                <h2 class="text-2xl font-semibold text-slate-900 tracking-tight mb-8 text-center">Частые вопросы</h2>
+                
+                <div class="space-y-4">
+                    <details class="group bg-white rounded-lg border border-slate-200">
+                        <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-4 text-sm text-slate-900">
+                            <span>Что можно отправлять?</span>
+                            <span class="transition group-open:rotate-180">
+                                <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
+                            </span>
+                        </summary>
+                        <div class="text-slate-500 text-sm px-4 pb-4 leading-relaxed">
+                            Личные вещи: одежда, обувь, книги, игрушки, косметика, бытовая техника. Документы: паспорта, справки, договоры. Подарки.
+                        </div>
+                    </details>
+
+                    <details class="group bg-white rounded-lg border border-slate-200">
+                        <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-4 text-sm text-slate-900">
+                            <span>Нужно ли платить за таможню?</span>
+                            <span class="transition group-open:rotate-180">
+                                <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
+                            </span>
+                        </summary>
+                        <div class="text-slate-500 text-sm px-4 pb-4 leading-relaxed">
+                            Б/у вещи и документы пошлиной не облагаются. Если стоимость новых товаров превышает 200$, пошлина составит 20% от суммы превышения.
+                        </div>
+                    </details>
+
+                    <details class="group bg-white rounded-lg border border-slate-200">
+                        <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-4 text-sm text-slate-900">
+                            <span>Как упаковать посылку?</span>
+                            <span class="transition group-open:rotate-180">
+                                <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
+                            </span>
+                        </summary>
+                        <div class="text-slate-500 text-sm px-4 pb-4 leading-relaxed">
+                            Мы принимаем посылки в вашей упаковке (картонная коробка, скотч). Хрупкое нужно обернуть в пленку. Курьер может упаковать за 10€.
+                        </div>
+                    </details>
+
+                    <details class="group bg-white rounded-lg border border-slate-200">
+                        <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-4 text-sm text-slate-900">
+                            <span>Правила упаковки посылок</span>
+                            <span class="transition group-open:rotate-180">
+                                <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
+                            </span>
+                        </summary>
+                        <div class="text-slate-500 text-sm px-4 pb-4 leading-relaxed space-y-3">
+                            <p class="text-slate-600">
+                                Упаковка должна быть прочной, исключать доступ к содержимому, иметь место под документы и ярлык. Макс. размер: сумма трёх измерений 180 см, длина 100 см; превышение — за доплату. Защищайте посылку от намокания.
+                            </p>
+                            <ul class="list-disc list-inside space-y-2 text-slate-600">
+                                <li><strong>Стабилизация:</strong> Наполнители (полистирол, опилки, вата) фиксируют содержимое.</li>
+                                <li><strong>Хрупкое:</strong> Только жёсткая упаковка; наценка 30%.</li>
+                                <li><strong>Жидкости:</strong> Герметичные ёмкости внутри коробки с пометкой «Осторожно»; наценка 30%.</li>
+                                <li><strong>Тканевая упаковка:</strong> Светлая однотонная материя; предварительно защитить от влаги.</li>
+                            </ul>
+                            <p class="text-slate-600">
+                                Проверяйте актуальные правила, списки запрещённых товаров и санкционных ограничений перед отправкой. Выбирайте подходящую службу доставки исходя из маршрута и бюджета.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="group bg-white rounded-lg border border-slate-200">
+                        <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-4 text-sm text-slate-900">
+                            <span>Запрещённые товары (РФ)</span>
+                            <span class="transition group-open:rotate-180">
+                                <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
+                            </span>
+                        </summary>
+                        <div class="text-slate-500 text-sm px-4 pb-4 leading-relaxed space-y-3">
+                            <p class="text-slate-600">Список товаров, запрещённых к пересылке в Российской Федерации:</p>
+                            <ol class="list-decimal list-inside space-y-1 text-slate-600">
+                                <li>Печатные/аудиовизуальные материалы с экстремизмом, терроризмом, порнографией, пропагандой нацистской символики и иным вредом интересам РФ.</li>
+                                <li>Все виды оружия и боеприпасы, части, электрошокеры и конструкции, сходные с оружием.</li>
+                                <li>Опасные отходы.</li>
+                                <li>Спецсредства для негласного получения информации.</li>
+                                <li>Ядовитые вещества (не прекурсоры).</li>
+                                <li>Наркотические/психотропные вещества и прекурсоры, в т.ч. лекарства.</li>
+                                <li>Органы/ткани человека, кровь и её компоненты.</li>
+                                <li>Растения и семена.</li>
+                                <li>Живые животные (кроме пчёл, пиявок, шелковичных червей).</li>
+                                <li>Озоноразрушающие вещества.</li>
+                                <li>Средства защиты растений из приложений A и B Стокгольмской конвенции.</li>
+                                <li>Орудия добычи водных биоресурсов.</li>
+                                <li>Рыболовные сети из нейлона/полиамидов с нитями &lt;0.5 мм и ячейкой &lt;100 мм.</li>
+                                <li>Рыболовные сети из иных мононитей с нитями &lt;0.5 мм и ячейкой &lt;100 мм.</li>
+                                <li>Электроловильные системы и устройства.</li>
+                                <li>Алкоголь, этиловый спирт, пиво.</li>
+                                <li>Табачные изделия и курительные смеси.</li>
+                                <li>Радиоактивные материалы.</li>
+                                <li>Культурные ценности.</li>
+                                <li>Скоропортящиеся продукты и напитки.</li>
+                                <li>Драгоценные камни и природные алмазы (кроме ювелирных украшений).</li>
+                                <li>Предметы, опасные по характеру или упаковке для почтовых работников/отправлений.</li>
+                                <li>Денежные знаки РФ и иностранная валюта.</li>
+                                <li>Ядовитые животные и растения.</li>
+                                <li>Опасные: наркотические, психотропные, сильнодействующие, радиоактивные, взрывчатые, едкие, ЛВЖ и другие.</li>
+                            </ol>
+                        </div>
+                    </details>
+
+                    <details class="group bg-white rounded-lg border border-slate-200">
+                        <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-4 text-sm text-slate-900">
+                            <span>Как оплатить?</span>
+                            <span class="transition group-open:rotate-180">
+                                <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
+                            </span>
+                        </summary>
+                        <div class="text-slate-500 text-sm px-4 pb-4 leading-relaxed">
+                            Принимаем карты (Visa/Mastercard), PayPal и банковский перевод. Оплата происходит после подтверждения заявки и взвешивания.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 11: LEAD FORM -->
+        <section id="lead-form" class="px-6 py-16 bg-white border-t border-slate-100">
+            <div class="max-w-xl mx-auto">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl font-semibold text-slate-900 tracking-tight mb-2">Готовы отправить посылку?</h2>
+                    <p class="text-sm text-slate-500">Оставьте заявку — мы перезвоним в течение 30 минут.</p>
+                </div>
+
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1 ml-1">Ваше имя</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="Иван Иванов">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1 ml-1">Телефон (WhatsApp)</label>
+                        <input type="tel" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="+33 ...">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1 ml-1">Откуда</label>
+                            <div class="relative">
+                                <select class="w-full appearance-none bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Франция</option>
+                                    <option>Германия</option>
+                                    <option>Италия</option>
+                                    <option>Испания</option>
+                                    <option>Англия</option>
+                                </select>
+                                <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                    <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1 ml-1">Куда</label>
+                            <div class="relative">
+                                <select class="w-full appearance-none bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Россия</option>
+                                    <option>Молдова</option>
+                                    <option>Беларусь</option>
+                                    <option>Казахстан</option>
+                                </select>
+                                <span class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                    <span class="iconify" data-icon="lucide:chevron-down" data-width="16"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="w-full py-4 bg-[#F5A623] hover:bg-[#E09212] text-white font-bold rounded-lg shadow-sm transition-all transform hover:-translate-y-0.5 text-sm">
+                        Отправить заявку
+                    </button>
+                    
+                    <p class="text-[10px] text-center text-slate-400">
+                        Нажимая кнопку, вы соглашаетесь с политикой обработки данных.
+                    </p>
+                </form>
+
+                <div class="mt-8 pt-8 border-t border-slate-100 text-center">
+                    <p class="text-xs text-slate-500 mb-4">Или напишите нам напрямую:</p>
+                    <div class="flex justify-center gap-4">
+                        <a href="#" class="p-3 bg-green-50 text-green-600 rounded-full hover:bg-green-100 transition-colors">
+                            <span class="iconify" data-icon="lucide:message-circle" data-width="20"></span>
+                        </a>
+                        <a href="#" class="p-3 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors">
+                            <span class="iconify" data-icon="lucide:send" data-width="20"></span>
+                        </a>
+                        <a href="#" class="p-3 bg-slate-100 text-slate-600 rounded-full hover:bg-slate-200 transition-colors">
+                            <span class="iconify" data-icon="lucide:mail" data-width="20"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="bg-slate-900 text-slate-400 text-sm py-12 px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-white font-bold text-lg tracking-tight mb-4">SV EXPRESS</h3>
+                    <p class="text-xs leading-relaxed mb-4">Доставка посылок из Европы в СНГ с 2016 года. Надёжно. Быстро. Доступно.</p>
+                </div>
+                <div>
+                    <h4 class="text-slate-200 font-semibold mb-3">Направления</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white">Доставка в Россию</a></li>
+                        <li><a href="#" class="hover:text-white">Доставка в Молдову</a></li>
+                        <li><a href="#" class="hover:text-white">Доставка в Беларусь</a></li>
+                        <li><a href="#" class="hover:text-white">Доставка в Казахстан</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-slate-200 font-semibold mb-3">Информация</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white">Тарифы</a></li>
+                        <li><a href="#" class="hover:text-white">Правила упаковки</a></li>
+                        <li><a href="#" class="hover:text-white">Запрещённые товары</a></li>
+                        <li><a href="#" class="hover:text-white">Политика конфиденциальности</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-slate-200 font-semibold mb-3">Контакты</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li class="flex items-center gap-2"><span class="iconify" data-icon="lucide:phone" data-width="14"></span> +33 (753) 54 04 36</li>
+                        <li class="flex items-center gap-2"><span class="iconify" data-icon="lucide:mail" data-width="14"></span> info.svexpress@gmail.com</li>
+                        <li class="mt-2">🇫🇷 Ницца: 3 Av. Depoilly</li>
+                        <li>🇷🇺 Москва: Литовский бульвар 15</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-xs text-center">
+                © 2024 SV EXPRESS. Все права защищены.
+            </div>
+        </footer>
+    </main>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/33753540436" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-3.5 rounded-full shadow-lg hover:bg-[#20bd5a] transition-all hover:-translate-y-1 z-50 flex items-center gap-2 group">
+        <span class="iconify" data-icon="lucide:message-circle" data-width="24"></span>
+        <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 ease-in-out whitespace-nowrap text-sm font-semibold pr-0 group-hover:pr-2">Написать нам</span>
+    </a>
+
+    <script src="assets/js/main.js?v=1"></script>
+</body></html>

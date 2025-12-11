@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "sv-express",
+  "public": true,
+  "framework": null,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "assets/**/*", "use": "@vercel/static" }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
+}
