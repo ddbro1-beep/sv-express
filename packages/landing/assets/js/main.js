@@ -1,4 +1,107 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // ==========================================
+    // INTERNATIONALIZATION (i18n) SYSTEM
+    // ==========================================
+
+    let currentLang = localStorage.getItem('sv-express-lang') || 'ru';
+
+    // Translation function
+    function t(key) {
+        if (typeof translations === 'undefined') {
+            console.warn('Translations not loaded');
+            return key;
+        }
+        const value = translations[currentLang]?.[key];
+        return value !== undefined ? value : key;
+    }
+
+    // Apply translations to elements with data-i18n attribute
+    function applyTranslations() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const translation = t(key);
+
+            // Handle different element types
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                if (el.placeholder) {
+                    el.placeholder = translation;
+                }
+            } else if (el.tagName === 'TITLE') {
+                el.textContent = translation;
+            } else {
+                el.textContent = translation;
+            }
+        });
+
+        // Handle placeholders specifically
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            const translation = t(key);
+            if (el.placeholder !== undefined) {
+                el.placeholder = translation;
+            }
+        });
+
+        // Handle select option translations (country names)
+        document.querySelectorAll('option[data-i18n-key]').forEach(option => {
+            const key = option.getAttribute('data-i18n-key');
+            const translation = t(key);
+            if (translation !== key) {
+                option.textContent = translation;
+            }
+        });
+
+        // Update lang attribute on html element
+        document.documentElement.lang = currentLang;
+
+        // Update language switcher UI
+        updateLanguageSwitcherUI();
+
+        // Recalculate prices after language change (updates button text)
+        if (typeof recalc === 'function') {
+            recalc();
+        }
+    }
+
+    // Update language switcher UI
+    function updateLanguageSwitcherUI() {
+        document.querySelectorAll('.lang-switcher').forEach(switcher => {
+            const lang = switcher.getAttribute('data-lang');
+            if (lang === currentLang) {
+                switcher.classList.remove('text-slate-400', 'hover:text-slate-600');
+                switcher.classList.add('text-blue-600');
+            } else {
+                switcher.classList.remove('text-blue-600');
+                switcher.classList.add('text-slate-400', 'hover:text-slate-600');
+            }
+        });
+    }
+
+    // Switch language
+    function switchLanguage(lang) {
+        if (lang === currentLang) return;
+        currentLang = lang;
+        localStorage.setItem('sv-express-lang', lang);
+        applyTranslations();
+    }
+
+    // Initialize language switchers
+    document.querySelectorAll('.lang-switcher').forEach(switcher => {
+        switcher.addEventListener('click', () => {
+            const lang = switcher.getAttribute('data-lang');
+            switchLanguage(lang);
+        });
+    });
+
+    // Apply translations on page load
+    if (typeof translations !== 'undefined') {
+        applyTranslations();
+    }
+
+    // ==========================================
+    // MOBILE MENU
+    // ==========================================
+
     const mobileMenu = document.getElementById('mobile-menu');
     const openBtn = document.querySelector('[data-mobile-open]');
     const closers = mobileMenu ? Array.from(mobileMenu.querySelectorAll('[data-mobile-close]')) : [];
@@ -65,33 +168,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 weight = 0.5;
             }
             let price = null;
-            let note = 'Включен забор и таможня';
+            let noteKey = 'calc.result.note.included';
             let noteClass = 'text-[10px] text-green-600 flex items-center gap-1 mt-1';
 
             if (isDocs) {
                 price = tariffs.docs;
-                note = 'Тариф для документов до 0.5 кг';
+                noteKey = 'calc.result.note.docs';
             } else if (weight <= 10) {
                 price = tariffs.small;
-                note = 'Тариф посылка до 10 кг';
+                noteKey = 'calc.result.note.small';
             } else if (weight <= 20) {
                 price = tariffs.medium;
-                note = 'Тариф посылка до 20 кг';
+                noteKey = 'calc.result.note.medium';
             } else {
-                note = 'Нужен индивидуальный расчёт — свяжитесь с менеджером';
+                noteKey = 'calc.result.note.custom';
                 noteClass = 'text-[10px] text-orange-600 flex items-center gap-1 mt-1';
             }
 
             if (price !== null) {
                 priceEl.textContent = formatPrice(price);
             } else {
-                priceEl.textContent = 'Свяжитесь с менеджером';
+                priceEl.textContent = t('calc.result.contact');
             }
-            noteEl.textContent = note;
+            noteEl.textContent = t(noteKey);
             noteEl.className = noteClass;
 
             if (weightValue) {
-                weightValue.textContent = isDocs ? 'до 0.5 кг' : `${weight} кг`;
+                const weightText = isDocs
+                    ? `${t('calc.weight.upto')} 0.5 ${t('calc.weight.kg')}`
+                    : `${weight} ${t('calc.weight.kg')}`;
+                weightValue.textContent = weightText;
             }
         } catch (err) {
             if (typeof console !== 'undefined' && console.warn) {
@@ -170,14 +276,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Validate
             if (!formData.name || !formData.phone) {
-                alert('Пожалуйста, заполните все поля');
+                alert(t('leadform.error.empty'));
                 return;
             }
 
             // Disable button and show loading
             const originalText = leadSubmitBtn.textContent;
             leadSubmitBtn.disabled = true;
-            leadSubmitBtn.textContent = 'Отправка...';
+            leadSubmitBtn.textContent = t('leadform.submitting');
             leadSubmitBtn.classList.add('opacity-70', 'cursor-not-allowed');
 
             try {
@@ -194,15 +300,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok && result.success) {
                     // Success
-                    alert('✅ Заявка отправлена! Мы перезвоним вам в течение 30 минут.');
+                    alert(t('leadform.success'));
                     leadForm.reset();
                 } else {
                     // Error from API
-                    throw new Error(result.error || 'Ошибка отправки заявки');
+                    throw new Error(result.error || t('leadform.error.submit'));
                 }
             } catch (error) {
                 console.error('Lead submission error:', error);
-                alert('❌ Произошла ошибка. Пожалуйста, попробуйте позже или свяжитесь с нами напрямую.');
+                alert(t('leadform.error.submit'));
             } finally {
                 // Restore button
                 leadSubmitBtn.disabled = false;
