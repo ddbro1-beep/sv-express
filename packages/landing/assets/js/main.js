@@ -181,7 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
             leadSubmitBtn.classList.add('opacity-70', 'cursor-not-allowed');
 
             try {
-                const response = await fetch('http://localhost:3000/api/leads', {
+                const apiUrl = 'https://api-oy5fw1sm7-gregs-projects-c94a974d.vercel.app/api/leads';
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
