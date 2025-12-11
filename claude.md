@@ -258,6 +258,67 @@ const calculatePrice = (weight, type, route) => {
 }
 ```
 
+### Документирование изменений
+
+**КРИТИЧЕСКИ ВАЖНО:** После каждого значимого изменения проекта ОБЯЗАТЕЛЬНО обновлять документацию!
+
+#### После каждого Production Deployment:
+
+1. **Обновить README.md:**
+   - Production URLs (Landing, API, Admin, Portal)
+   - Актуальные версии зависимостей
+   - Новые features в списке функций
+   - Обновить инструкции если изменился workflow
+
+2. **Обновить CHANGELOG.md:**
+   - Добавить новую версию с датой
+   - Перечислить все Added/Changed/Fixed/Removed features
+   - Указать Breaking Changes если есть
+   - Добавить ссылки на Pull Requests/Issues
+
+3. **Обновить docs/ файлы:**
+   - `docs/API.md` - если добавлены/изменены endpoints
+   - `docs/DATABASE.md` - если изменена схема БД
+   - `docs/DEPLOYMENT.md` - если изменился процесс деплоя
+   - `docs/SETUP.md` - если изменились requirements
+
+4. **Обновить docs/ROADMAP.md:**
+   - Отметить завершенные задачи ✅
+   - Добавить новые задачи в backlog
+   - Обновить приоритеты
+   - Пересмотреть временные оценки
+
+5. **Закоммитить изменения в GitHub:**
+   ```bash
+   git add README.md CHANGELOG.md docs/
+   git commit -m "docs: Update documentation after v1.x.x deployment"
+   git push origin main
+   ```
+
+#### При добавлении новых features:
+
+- Документировать API endpoints в JSDoc комментариях
+- Обновить типы в `packages/shared` если нужно
+- Добавить примеры использования в README
+- Создать migration guide если есть breaking changes
+
+#### При исправлении багов:
+
+- Записать в CHANGELOG.md что исправлено
+- Обновить версию в package.json
+- Если баг критический - создать hotfix notes
+
+#### Автоматизация:
+
+```bash
+# После деплоя всегда запускаем:
+npm run docs:update  # Генерирует/обновляет документацию
+npm run version:bump # Увеличивает версию
+git add . && git commit -m "docs: Update after deployment"
+```
+
+**Правило:** Код без документации = код не существует! Всегда веди актуальную документацию.
+
 ## Приоритеты при разработке
 
 1. **Безопасность** - никогда не компрометировать

@@ -131,10 +131,15 @@ npm run build:portal
 
 The project is deployed on Vercel:
 
-- **Landing:** https://sv-express-one.vercel.app
-- **API:** https://sv-express-one.vercel.app/api
-- **Admin:** https://admin.sv-express-one.vercel.app
-- **Portal:** https://portal.sv-express-one.vercel.app
+- **Landing:** https://landing-b4gqiybv0-gregs-projects-c94a974d.vercel.app
+- **API:** https://api-c95db0ov1-gregs-projects-c94a974d.vercel.app
+- **Admin:** https://admin-6s5anbhde-gregs-projects-c94a974d.vercel.app
+- **Portal:** Coming soon...
+
+### Admin Login Credentials
+
+- **Email:** admin@sv-express.com
+- **Password:** Bordei1705B
 
 See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed deployment instructions.
 
