@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="prohibited.meta.title">Запрещённые товары | SV Express</title>
+    <meta name="description" data-i18n="prohibited.meta.description" content="Список товаров, запрещённых к пересылке в Российскую Федерацию. Ознакомьтесь перед отправкой посылки.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="antialiased min-h-screen bg-slate-50">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2">
+                <span class="font-bold text-xl tracking-tighter text-slate-900">SV EXPRESS</span>
+            </a>
+            <a href="index.html" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-2 transition-colors">
+                <span class="iconify" data-icon="lucide:arrow-left" data-width="16"></span>
+                <span data-i18n="prohibited.back">На главную</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-10">
+
+        <!-- Page Header -->
+        <div class="ds-page-header">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="ds-section-icon red">
+                    <span class="iconify" data-icon="lucide:ban" data-width="24"></span>
+                </div>
+                <h1 class="ds-page-title" data-i18n="prohibited.title">Запрещённые товары</h1>
+            </div>
+            <p class="ds-page-subtitle" data-i18n="prohibited.subtitle">Список товаров, запрещённых к пересылке в Российскую Федерацию</p>
+        </div>
+
+        <!-- Warning -->
+        <div class="ds-info-box red mb-8">
+            <span class="iconify" data-icon="lucide:alert-octagon" data-width="20"></span>
+            <div>
+                <p class="font-semibold" data-i18n="prohibited.warning.title">Важно!</p>
+                <p data-i18n="prohibited.warning.text">Отправитель несёт полную ответственность за содержимое посылки. Пересылка запрещённых товаров может повлечь за собой конфискацию посылки и административную/уголовную ответственность.</p>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <article class="ds-article">
+
+            <!-- Category 1: Dangerous materials -->
+            <section class="ds-article-section">
+                <h2 class="ds-article-heading">
+                    <span class="iconify text-red-500" data-icon="lucide:flame" data-width="22"></span>
+                    <span data-i18n="prohibited.cat1.title">Опасные вещества и материалы</span>
+                </h2>
+
+                <div class="ds-prohibited-list">
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">1</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat1.1.title">Взрывчатые и легковоспламеняющиеся вещества</h4>
+                            <p data-i18n="prohibited.cat1.1.text">Взрывчатые, едкие, легковоспламеняющиеся жидкости (ЛВЖ) и другие опасные вещества</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">2</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat1.2.title">Радиоактивные материалы</h4>
+                            <p data-i18n="prohibited.cat1.2.text">Любые радиоактивные вещества и изделия, их содержащие</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">3</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat1.3.title">Ядовитые вещества</h4>
+                            <p data-i18n="prohibited.cat1.3.text">Ядовитые вещества (не являющиеся прекурсорами наркотических средств)</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">4</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat1.4.title">Опасные отходы</h4>
+                            <p data-i18n="prohibited.cat1.4.text">Отходы, представляющие угрозу для здоровья и окружающей среды</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">5</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat1.5.title">Озоноразрушающие вещества</h4>
+                            <p data-i18n="prohibited.cat1.5.text">Вещества, разрушающие озоновый слой атмосферы</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Category 2: Weapons -->
+            <section class="ds-article-section">
+                <h2 class="ds-article-heading">
+                    <span class="iconify text-slate-700" data-icon="lucide:sword" data-width="22"></span>
+                    <span data-i18n="prohibited.cat2.title">Оружие и боеприпасы</span>
+                </h2>
+
+                <div class="ds-prohibited-list">
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">6</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat2.1.title">Все виды оружия</h4>
+                            <p data-i18n="prohibited.cat2.1.text">Огнестрельное, пневматическое, газовое оружие, холодное оружие, электрошоковые устройства и конструкции, сходные с оружием</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">7</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat2.2.title">Боеприпасы</h4>
+                            <p data-i18n="prohibited.cat2.2.text">Патроны, снаряды и любые боеприпасы к оружию</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">8</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat2.3.title">Специальные технические средства</h4>
+                            <p data-i18n="prohibited.cat2.3.text">Устройства для негласного получения информации (прослушивающие устройства, скрытые камеры и т.д.)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Category 3: Drugs -->
+            <section class="ds-article-section">
+                <h2 class="ds-article-heading">
+                    <span class="iconify text-purple-500" data-icon="lucide:pill" data-width="22"></span>
+                    <span data-i18n="prohibited.cat3.title">Наркотические и психотропные вещества</span>
+                </h2>
+
+                <div class="ds-prohibited-list">
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">9</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat3.1.title">Наркотические средства</h4>
+                            <p data-i18n="prohibited.cat3.1.text">Наркотические и психотропные вещества в любом виде, включая лекарственные средства, содержащие такие вещества</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">10</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat3.2.title">Прекурсоры</h4>
+                            <p data-i18n="prohibited.cat3.2.text">Вещества, используемые для изготовления наркотических средств</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Category 4: Biological -->
+            <section class="ds-article-section">
+                <h2 class="ds-article-heading">
+                    <span class="iconify text-green-600" data-icon="lucide:leaf" data-width="22"></span>
+                    <span data-i18n="prohibited.cat4.title">Биологические материалы</span>
+                </h2>
+
+                <div class="ds-prohibited-list">
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">11</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat4.1.title">Органы и ткани человека</h4>
+                            <p data-i18n="prohibited.cat4.1.text">Органы и ткани человека, кровь и её компоненты</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">12</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat4.2.title">Растения и семена</h4>
+                            <p data-i18n="prohibited.cat4.2.text">Растения и семена растений в любом виде</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">13</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat4.3.title">Живые животные</h4>
+                            <p data-i18n="prohibited.cat4.3.text">Живые животные (кроме пчёл, пиявок, шелковичных червей)</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">14</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat4.4.title">Ядовитые животные и растения</h4>
+                            <p data-i18n="prohibited.cat4.4.text">Ядовитые виды животных и растений</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Category 5: Food & Substances -->
+            <section class="ds-article-section">
+                <h2 class="ds-article-heading">
+                    <span class="iconify text-amber-500" data-icon="lucide:wine" data-width="22"></span>
+                    <span data-i18n="prohibited.cat5.title">Продукты питания и вещества</span>
+                </h2>
+
+                <div class="ds-prohibited-list">
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">15</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat5.1.title">Алкогольная продукция</h4>
+                            <p data-i18n="prohibited.cat5.1.text">Алкогольная продукция, этиловый спирт, пиво</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">16</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat5.2.title">Табачные изделия</h4>
+                            <p data-i18n="prohibited.cat5.2.text">Табачные изделия и курительные смеси</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">17</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat5.3.title">Скоропортящиеся продукты</h4>
+                            <p data-i18n="prohibited.cat5.3.text">Скоропортящиеся продукты питания и напитки</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Category 6: Valuables -->
+            <section class="ds-article-section">
+                <h2 class="ds-article-heading">
+                    <span class="iconify text-yellow-500" data-icon="lucide:gem" data-width="22"></span>
+                    <span data-i18n="prohibited.cat6.title">Ценности и валюта</span>
+                </h2>
+
+                <div class="ds-prohibited-list">
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">18</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat6.1.title">Денежные знаки</h4>
+                            <p data-i18n="prohibited.cat6.1.text">Денежные знаки РФ и иностранная валюта</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">19</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat6.2.title">Драгоценные камни</h4>
+                            <p data-i18n="prohibited.cat6.2.text">Драгоценные камни и природные алмазы (кроме ювелирных украшений)</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">20</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat6.3.title">Культурные ценности</h4>
+                            <p data-i18n="prohibited.cat6.3.text">Предметы, представляющие культурную или историческую ценность</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Category 7: Other -->
+            <section class="ds-article-section">
+                <h2 class="ds-article-heading">
+                    <span class="iconify text-slate-500" data-icon="lucide:file-warning" data-width="22"></span>
+                    <span data-i18n="prohibited.cat7.title">Прочие запрещённые товары</span>
+                </h2>
+
+                <div class="ds-prohibited-list">
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">21</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat7.1.title">Запрещённые материалы</h4>
+                            <p data-i18n="prohibited.cat7.1.text">Печатные и аудиовизуальные материалы, содержащие призывы к экстремизму, терроризму, порнографию или пропаганду нацистской символики</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">22</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat7.2.title">Средства защиты растений</h4>
+                            <p data-i18n="prohibited.cat7.2.text">Средства защиты растений согласно приложениям A и B Стокгольмской конвенции</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">23</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat7.3.title">Рыболовные снасти</h4>
+                            <p data-i18n="prohibited.cat7.3.text">Орудия добычи водных биологических ресурсов, рыболовные сети определённых параметров, электроловильные системы</p>
+                        </div>
+                    </div>
+                    <div class="ds-prohibited-item">
+                        <span class="ds-prohibited-number">24</span>
+                        <div>
+                            <h4 data-i18n="prohibited.cat7.4.title">Опасные предметы</h4>
+                            <p data-i18n="prohibited.cat7.4.text">Предметы, опасные по характеру или упаковке для почтовых работников и других отправлений</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Note -->
+            <section class="ds-article-section">
+                <div class="ds-info-box blue">
+                    <span class="iconify" data-icon="lucide:info" data-width="20"></span>
+                    <div>
+                        <p class="font-semibold mb-1" data-i18n="prohibited.note.title">Обратите внимание</p>
+                        <p data-i18n="prohibited.note.text">Данный список может быть неполным. Перед отправкой рекомендуем уточнить актуальный перечень запрещённых товаров у нашего менеджера или ознакомиться с официальными правилами таможенного законодательства страны назначения.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="ds-article-cta">
+                <h3 data-i18n="prohibited.cta.title">Есть вопросы по содержимому посылки?</h3>
+                <p data-i18n="prohibited.cta.subtitle">Свяжитесь с нами — поможем разобраться</p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="https://wa.me/33753540436" class="ds-btn primary">
+                        <span class="iconify" data-icon="lucide:message-circle" data-width="18"></span>
+                        <span data-i18n="prohibited.cta.whatsapp">Написать в WhatsApp</span>
+                    </a>
+                    <a href="packaging.html" class="ds-btn secondary">
+                        <span class="iconify" data-icon="lucide:package" data-width="18"></span>
+                        <span data-i18n="prohibited.cta.packaging">Правила упаковки</span>
+                    </a>
+                </div>
+            </section>
+
+        </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-sm py-12 px-6 mt-16">
+        <div class="max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-white font-bold text-lg tracking-tight mb-4">SV EXPRESS</h3>
+                    <p class="text-xs leading-relaxed" data-i18n="footer.description">Доставка посылок из Европы в СНГ с 2016 года. Надёжно. Быстро. Доступно.</p>
+                </div>
+                <div>
+                    <h4 class="text-slate-200 font-semibold mb-3" data-i18n="footer.info.title">Информация</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="packaging.html" class="hover:text-white" data-i18n="footer.info.packaging">Правила упаковки</a></li>
+                        <li><a href="prohibited.html" class="hover:text-white" data-i18n="footer.info.prohibited">Запрещённые товары</a></li>
+                        <li><a href="privacy.html" class="hover:text-white" data-i18n="footer.info.privacy">Политика конфиденциальности</a></li>
+                        <li><a href="offer.html" class="hover:text-white" data-i18n="footer.info.offer">Публичная оферта</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-slate-200 font-semibold mb-3" data-i18n="footer.contacts.title">Контакты</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li class="flex items-center gap-2">
+                            <span class="iconify" data-icon="lucide:phone" data-width="14"></span>
+                            +33 (753) 54 04 36
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="iconify" data-icon="lucide:mail" data-width="14"></span>
+                            info.svexpress@gmail.com
+                        </li>
+                    </ul>
+                    <!-- Language Switcher -->
+                    <div class="mt-4 pt-4 border-t border-slate-800">
+                        <p class="text-xs text-slate-500 mb-2" data-i18n="footer.language">Язык</p>
+                        <div class="flex gap-2">
+                            <button class="lang-switcher px-3 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 transition-colors" data-lang="ru">RU</button>
+                            <button class="lang-switcher px-3 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 transition-colors" data-lang="en">EN</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-xs text-center" data-i18n="footer.copyright">
+                © 2024 SV EXPRESS. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/33753540436" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-3.5 rounded-full shadow-lg hover:bg-[#20bd5a] transition-all hover:-translate-y-1 z-50 flex items-center gap-2 group">
+        <span class="iconify" data-icon="lucide:message-circle" data-width="24"></span>
+        <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 ease-in-out whitespace-nowrap text-sm font-semibold pr-0 group-hover:pr-2"><span data-i18n="whatsapp.button">Написать нам</span></span>
+    </a>
+
+    <script src="assets/js/translations.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
