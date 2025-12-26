@@ -3,12 +3,21 @@
 ## Deployment Architecture
 
 ```
-Landing:  sv-express-one.vercel.app          (Static files)
-API:      sv-express-one.vercel.app/api      (Serverless functions)
-Admin:    admin.sv-express-one.vercel.app    (React SPA)
-Portal:   portal.sv-express-one.vercel.app   (React SPA)
-Database: Supabase Cloud                      (PostgreSQL)
+Landing:  sv-express-local.vercel.app        (Static files) → www.sv-express.com
+API:      api-xxx.vercel.app/api             (Serverless functions)
+Admin:    admin-xxx.vercel.app               (React SPA)
+Portal:   Coming soon                        (React SPA)
+Database: Supabase Cloud                     (PostgreSQL)
 ```
+
+## Current Production URLs
+
+| Service | URL | Team |
+|---------|-----|------|
+| Landing | https://sv-express-local.vercel.app | ddbro1-beeps-projects |
+| Landing (custom) | https://www.sv-express.com | ddbro1-beeps-projects |
+| API | https://api-c95db0ov1-gregs-projects-c94a974d.vercel.app | gregs-projects |
+| Admin | https://admin-6s5anbhde-gregs-projects-c94a974d.vercel.app | gregs-projects |
 
 ---
 
@@ -244,24 +253,72 @@ Same as Admin Dashboard, but:
 
 ## Part 5: Landing Page Deployment
 
-### Already Deployed!
+### IMPORTANT: Dual File Structure
 
-Your landing page is already at `https://sv-express-one.vercel.app`.
+The landing page has **two copies** of source files:
 
-### Update Landing to Use API
+1. **Development files:** `packages/landing/` - Edit these files!
+2. **Production files:** Root directory (`/`) - Synced from packages/landing
 
-Edit `packages/landing/assets/js/main.js`:
+**Why?** Vercel project `sv-express-local` is configured to deploy from the repository root (`/`), not from `packages/landing/`.
 
-```javascript
-// Replace form submission with API call
-const submitForm = async (formData) => {
-    const response = await fetch('https://sv-express-one.vercel.app/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-    });
-    return response.json();
-};
+### Deployment Workflow
+
+```bash
+# 1. Make changes in packages/landing/
+vim packages/landing/index.html
+
+# 2. Sync to root (REQUIRED!)
+cp packages/landing/index.html ./index.html
+cp packages/landing/*.html ./
+cp -r packages/landing/assets/* ./assets/
+
+# 3. Commit and push
+git add .
+git commit -m "feat: Update landing page"
+git push origin main
+
+# 4. Vercel auto-deploys from root
+# Check: https://sv-express-local.vercel.app
+```
+
+### Files to Sync
+
+| Source (packages/landing/) | Destination (root) |
+|---------------------------|-------------------|
+| index.html | index.html |
+| order.html | order.html |
+| packaging.html | packaging.html |
+| prohibited.html | prohibited.html |
+| privacy.html | privacy.html |
+| offer.html | offer.html |
+| assets/css/main.css | assets/css/main.css |
+| assets/js/main.js | assets/js/main.js |
+| assets/js/translations.js | assets/js/translations.js |
+
+### Vercel Project Settings
+
+- **Project:** sv-express-local
+- **Team:** ddbro1-beeps-projects
+- **Root Directory:** `/` (repository root)
+- **Build Command:** `echo 'Static site - no build needed'`
+- **Output Directory:** `.`
+- **Framework:** None (static files)
+
+### Manual Redeploy
+
+If auto-deploy doesn't work:
+
+1. Go to https://vercel.com/ddbro1-beeps-projects/sv-express-local/deployments
+2. Click "..." on latest deployment
+3. Select "Redeploy"
+
+Or via CLI:
+```bash
+vercel login  # Login as ddbro1-beep
+vercel teams switch ddbro1-beeps-projects
+vercel link --project sv-express-local --cwd .
+vercel --prod --yes
 ```
 
 ---

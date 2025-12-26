@@ -2,6 +2,57 @@
 
 All notable changes to the SV Express project will be documented in this file.
 
+---
+
+## [1.1.0] - 2025-12-26
+
+### Added
+- **New pricing tier:** 30 kg = 245€ (`pricing.large.*`)
+- **Order form page:** Complete multi-step order submission form (`order.html`)
+- **WhatsApp button:** Floating WhatsApp button on all pages for quick support
+- **Full i18n support:** All pages now have complete Russian and English translations (~400 keys)
+- **Design System documentation:** `packages/landing/DESIGN-SYSTEM.md`
+
+### Changed
+- **Pricing structure:** Now 3 tiers (10kg/95€, 20kg/156€, 30kg/245€)
+- **FAQ content:**
+  - Updated payment methods: "bank account or transfer"
+  - Added maximum weight restrictions (30kg, 180cm sum of sides)
+  - Removed courier packaging option
+- **Pain points section:**
+  - Changed "customs" to "documentation"
+  - Updated insurance text (default $100, 5% for additional)
+- **Deployment workflow:** Landing files synced from `packages/landing/` to root
+
+### Removed
+- **Documents tier:** Removed from pricing cards and calculator
+- **Customs mentions:** Removed all references to customs clearance
+- **Courier packaging:** Removed "courier can package for 10€" from FAQ
+
+### Fixed
+- **Critical: Vercel deployment** - Root files were outdated, now synced from packages/landing
+- **Translation keys:** Fixed mismatched keys in offer.html, packaging.html, prohibited.html, privacy.html
+- **footer.description:** Added missing translation key
+
+### Documentation
+- Updated `docs/DEPLOYMENT.md` with dual file structure explanation
+- Updated `README.md` with deployment workflow and production URLs
+- Updated `CLAUDE.md` with mandatory bilingual development rule
+- Created `packages/landing/DESIGN-SYSTEM.md` with pricing tiers
+- Updated `packages/landing/README-i18n.md` with all pages
+
+### Deployment Notes
+
+**IMPORTANT:** After editing `packages/landing/`, sync to root:
+
+```bash
+cp packages/landing/*.html ./
+cp -r packages/landing/assets/* ./assets/
+git add . && git commit -m "sync: Update landing" && git push
+```
+
+---
+
 ## [1.0.0] - 2025-12-11
 
 ### 🎉 Initial Production Release

@@ -4,6 +4,23 @@
 
 This document describes the design system used in the SV Express landing page.
 
+## Pricing Tiers (December 2024)
+
+| Tier | Weight | Price | Translation Key |
+|------|--------|-------|-----------------|
+| Small | до 10 кг | 95€ | `pricing.small.*` |
+| Medium | до 20 кг | 156€ | `pricing.medium.*` |
+| Large | до 30 кг | 245€ | `pricing.large.*` |
+
+**Note:** "Documents" tier was removed. Maximum weight is 30 kg.
+
+### Weight Restrictions
+
+- Maximum weight: 30 kg
+- Maximum dimensions: sum of all sides ≤ 180 cm
+- Oversize penalty: £20
+- Overweight tolerance: 0.025 kg
+
 ## Colors
 
 ### Primary Colors

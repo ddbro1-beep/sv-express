@@ -178,10 +178,28 @@ npm run build:portal
 
 The project is deployed on Vercel:
 
-- **Landing:** https://sv-express-local.vercel.app (ddbro1-beeps-projects)
-- **API:** https://api-c95db0ov1-gregs-projects-c94a974d.vercel.app
-- **Admin:** https://admin-6s5anbhde-gregs-projects-c94a974d.vercel.app
-- **Portal:** Coming soon...
+| Service | URL | Team |
+|---------|-----|------|
+| Landing | https://sv-express-local.vercel.app | ddbro1-beeps-projects |
+| Landing (custom) | https://www.sv-express.com | ddbro1-beeps-projects |
+| API | https://api-c95db0ov1-gregs-projects-c94a974d.vercel.app | gregs-projects |
+| Admin | https://admin-6s5anbhde-gregs-projects-c94a974d.vercel.app | gregs-projects |
+| Portal | Coming soon | - |
+
+### Landing Page Deployment
+
+**IMPORTANT:** Landing files exist in two places:
+- `packages/landing/` - Source files (edit here)
+- Root (`/`) - Production files (synced from packages/landing)
+
+```bash
+# After editing packages/landing/, sync to root:
+cp packages/landing/*.html ./
+cp -r packages/landing/assets/* ./assets/
+git add . && git commit -m "sync: Update landing files" && git push
+```
+
+Vercel auto-deploys from root on push to `main`.
 
 ### Admin Login Credentials
 
