@@ -121,25 +121,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const weightValue = document.getElementById('weight-value');
     const priceEl = document.getElementById('calc-price');
     const noteEl = document.getElementById('calc-note');
-    const typeInputs = Array.from(document.querySelectorAll('input[name="type"]'));
     const fromCountry = document.getElementById('from-country');
     const toCountry = document.getElementById('to-country');
     const trackInput = document.getElementById('track-input');
     const trackButton = document.getElementById('track-button');
 
     const tariffs = {
-        docs: 30,
-        small: 95, // до 10 кг
-        medium: 156 // до 20 кг
+        small: 95,   // до 10 кг
+        medium: 156, // до 20 кг
+        large: 245   // до 30 кг
     };
 
     const formatPrice = (value) => `~${value}€`;
-
-    const setWeightDisabled = (disabled) => {
-        if (!weightRange) return;
-        weightRange.disabled = disabled;
-        weightRange.classList.toggle('input-disabled', disabled);
-    };
 
     const syncCountryOptions = () => {
         if (!fromCountry || !toCountry) return;
@@ -157,29 +150,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const recalc = () => {
         try {
             if (!weightRange || !priceEl || !noteEl) return;
-            const selectedType = typeInputs.find((r) => r.checked);
-            const type = (selectedType && selectedType.value) ? selectedType.value : 'used';
-            const isDocs = type === 'docs';
-
-            setWeightDisabled(isDocs);
 
             let weight = Number(weightRange.value || 0);
-            if (isDocs) {
-                weight = 0.5;
-            }
             let price = null;
             let noteKey = 'calc.result.note.included';
             let noteClass = 'text-[10px] text-green-600 flex items-center gap-1 mt-1';
 
-            if (isDocs) {
-                price = tariffs.docs;
-                noteKey = 'calc.result.note.docs';
-            } else if (weight <= 10) {
+            if (weight <= 10) {
                 price = tariffs.small;
                 noteKey = 'calc.result.note.small';
             } else if (weight <= 20) {
                 price = tariffs.medium;
                 noteKey = 'calc.result.note.medium';
+            } else if (weight <= 30) {
+                price = tariffs.large;
+                noteKey = 'calc.result.note.large';
             } else {
                 noteKey = 'calc.result.note.custom';
                 noteClass = 'text-[10px] text-orange-600 flex items-center gap-1 mt-1';
@@ -194,10 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             noteEl.className = noteClass;
 
             if (weightValue) {
-                const weightText = isDocs
-                    ? `${t('calc.weight.upto')} 0.5 ${t('calc.weight.kg')}`
-                    : `${weight} ${t('calc.weight.kg')}`;
-                weightValue.textContent = weightText;
+                weightValue.textContent = `${weight} ${t('calc.weight.kg')}`;
             }
         } catch (err) {
             if (typeof console !== 'undefined' && console.warn) {
@@ -209,12 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (weightRange) {
         weightRange.addEventListener('input', recalc);
         weightRange.addEventListener('change', recalc);
-    }
-    if (typeInputs.length) {
-        typeInputs.forEach((el) => {
-            el.addEventListener('change', recalc);
-            el.addEventListener('input', recalc);
-        });
     }
     if (fromCountry) {
         fromCountry.addEventListener('change', syncCountryOptions);

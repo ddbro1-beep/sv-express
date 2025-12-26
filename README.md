@@ -85,6 +85,14 @@ sv-express/
 
 ## 🔑 Features
 
+### Landing Page (packages/landing)
+- **Bilingual Support:** Full Russian and English translations
+- Responsive design with Tailwind CSS
+- Online order form with validation
+- Shipping cost calculator
+- WhatsApp integration for customer support
+- Informational pages: packaging rules, prohibited items, privacy policy, public offer
+
 ### For Customers
 - Track shipments by tracking number
 - Register and manage account
@@ -104,6 +112,45 @@ sv-express/
 
 - **Origin Countries:** EU countries (France, Germany, Spain, Italy, etc.)
 - **Destination Countries:** CIS countries (Russia, Belarus, Kazakhstan, etc.)
+
+## 🌐 Localization (i18n)
+
+The landing page supports **Russian** and **English** languages.
+
+### Translation System
+
+Translations are stored in `packages/landing/assets/js/translations.js`:
+
+```javascript
+const translations = {
+    ru: {
+        'page.section.key': 'Текст на русском',
+        // ...
+    },
+    en: {
+        'page.section.key': 'Text in English',
+        // ...
+    }
+};
+```
+
+### Usage in HTML
+
+```html
+<h1 data-i18n="page.section.key">Fallback русский текст</h1>
+```
+
+### Language Switcher
+
+Users can switch languages using buttons in the footer. The selection is saved in `localStorage`.
+
+### Adding New Translations
+
+1. Add `data-i18n` attribute to HTML element
+2. Add key-value pairs to BOTH `ru` and `en` sections in `translations.js`
+3. Test both languages using the language switcher
+
+See [CLAUDE.md](CLAUDE.md) for detailed localization guidelines.
 
 ## 🔒 Security
 
