@@ -38,7 +38,15 @@ const translations = {
 - Добавлены data-i18n-placeholder для input полей
 - Обновлён переключатель языков с классом `.lang-switcher`
 
-**Основные секции с переводами:**
+**Страницы с переводами:**
+- ✅ `index.html` - Главная страница
+- ✅ `order.html` - Форма оформления заказа
+- ✅ `packaging.html` - Правила упаковки
+- ✅ `prohibited.html` - Запрещённые товары
+- ✅ `privacy.html` - Политика конфиденциальности
+- ✅ `offer.html` - Публичная оферта
+
+**Секции главной страницы:**
 - ✅ Navigation (Навигация)
 - ✅ Hero Section (Главная секция)
 - ✅ Pain Points (Проблемы клиентов)
@@ -159,7 +167,25 @@ translations
 ├── leadform.*          - Форма заявки
 ├── footer.*            - Футер
 ├── whatsapp.*          - WhatsApp кнопка
-└── country.*           - Названия стран
+├── country.*           - Названия стран
+│
+├── order.*             - Страница заказа
+│   ├── order.sender.*      - Данные отправителя
+│   ├── order.recipient.*   - Данные получателя
+│   ├── order.parcel.*      - Параметры посылки
+│   ├── order.items.*       - Содержимое
+│   ├── order.collection.*  - Способ передачи
+│   ├── order.date.*        - Дата и время
+│   ├── order.payment.*     - Оплата
+│   ├── order.agreement.*   - Подтверждение
+│   ├── order.country.*     - Страны
+│   └── order.service.*     - Службы доставки
+│
+├── packaging.*         - Страница упаковки
+├── prohibited.*        - Запрещённые товары
+├── privacy.*           - Политика конфиденциальности
+└── offer.*             - Публичная оферта
+    └── offer.s1-s10.*  - Секции оферты
 ```
 
 ## Сохранение Выбора Языка
