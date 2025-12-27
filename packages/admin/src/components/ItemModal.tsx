@@ -69,7 +69,7 @@ const ItemModal: React.FC<ItemModalProps> = ({
     if (key in editedData) {
       return editedData[key];
     }
-    return (item as Record<string, unknown>)[key] ?? defaultValue;
+    return (item as unknown as Record<string, unknown>)[key] ?? defaultValue;
   };
 
   const handleFieldChange = (key: string, value: unknown) => {
