@@ -62,7 +62,7 @@ export const createComment = async (
     }
 
     const user = req.user;
-    const userName = user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email : 'System';
+    const userName = user ? user.email : 'System';
 
     const { data, error } = await supabase
       .from('comments')
