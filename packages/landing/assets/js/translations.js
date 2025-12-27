@@ -159,11 +159,11 @@ const translations = {
         // FAQ Section
         'faq.title': 'Частые вопросы',
         'faq.q1.question': 'Что можно отправлять?',
-        'faq.q1.answer': 'Личные вещи: одежда, обувь, книги, игрушки, косметика, бытовая техника. Документы: паспорта, справки, договоры. Подарки.',
+        'faq.q1.answer': 'Личные вещи: одежда, обувь, книги, игрушки, косметика, бытовая техника. Документы: справки, договоры. Подарки. Важно: паспорта отправлять нельзя.',
         'faq.q2.question': 'Максимальный вес и размеры?',
         'faq.q2.answer': 'Максимальный вес — 30 кг (конечная стоимость рассчитывается исходя из фактического веса). Сумма всех сторон не должна превышать 180 см, во избежание штрафа за негабарит в размере £20.00. Сборы за превышение веса применяются ко всем посылкам, если вес превышает разницу в 0,025 кг от заявленной тарифной планки.',
         'faq.q3.question': 'Как упаковать посылку?',
-        'faq.q3.answer': 'Мы принимаем посылки в вашей упаковке (картонная коробка, скотч). Хрупкое нужно обернуть в пленку.',
+        'faq.q3.answer': 'Мы принимаем посылки в вашей упаковке: коробки, чемоданы, сумки, которые не открываются или упакованы скотчем или плёнкой.',
         'faq.q4.question': 'Правила упаковки посылок',
         'faq.q4.answer.intro': 'Упаковка должна быть прочной, исключать доступ к содержимому, иметь место под документы и ярлык. Макс. размер: сумма трёх измерений 180 см, длина 100 см; превышение — за доплату. Защищайте посылку от намокания.',
         'faq.q4.answer.stabilization': 'Стабилизация:',
@@ -203,7 +203,7 @@ const translations = {
         'faq.q5.item24': 'Ядовитые животные и растения.',
         'faq.q5.item25': 'Опасные: наркотические, психотропные, сильнодействующие, радиоактивные, взрывчатые, едкие, ЛВЖ и другие.',
         'faq.q6.question': 'Как оплатить?',
-        'faq.q6.answer': 'Оплата делается на счёт или перевод.',
+        'faq.q6.answer': 'Оплата производится на счёт или переводом. Свяжитесь с администратором — возможна оплата в российских рублях.',
 
         // Lead Form Section
         'leadform.title': 'Готовы отправить посылку?',
@@ -870,11 +870,11 @@ const translations = {
         // FAQ Section
         'faq.title': 'Frequently Asked Questions',
         'faq.q1.question': 'What can I send?',
-        'faq.q1.answer': 'Personal items: clothing, shoes, books, toys, cosmetics, household appliances. Documents: passports, certificates, contracts. Gifts.',
+        'faq.q1.answer': 'Personal items: clothing, shoes, books, toys, cosmetics, household appliances. Documents: certificates, contracts. Gifts. Important: passports cannot be sent.',
         'faq.q2.question': 'Maximum weight and dimensions?',
         'faq.q2.answer': 'Maximum weight — 30 kg (final cost is calculated based on actual weight). Sum of all sides must not exceed 180 cm, to avoid oversize fee of £20.00. Weight surcharges apply to all parcels if weight exceeds the difference of 0.025 kg from the declared tariff tier.',
         'faq.q3.question': 'How to pack the parcel?',
-        'faq.q3.answer': 'We accept parcels in your packaging (cardboard box, tape). Fragile items must be wrapped in film.',
+        'faq.q3.answer': 'We accept parcels in your packaging: boxes, suitcases, bags that don\'t open or are sealed with tape or film.',
         'faq.q4.question': 'Packaging Requirements',
         'faq.q4.answer.intro': 'Packaging must be sturdy, prevent access to contents, have space for documents and label. Max size: sum of three dimensions 180cm, length 100cm; excess charged extra. Protect parcel from moisture.',
         'faq.q4.answer.stabilization': 'Stabilisation:',
@@ -914,7 +914,7 @@ const translations = {
         'faq.q5.item24': 'Poisonous animals and plants.',
         'faq.q5.item25': 'Dangerous: narcotic, psychotropic, potent, radioactive, explosive, caustic, flammable liquids and others.',
         'faq.q6.question': 'How to pay?',
-        'faq.q6.answer': 'Payment is made by bank account or transfer.',
+        'faq.q6.answer': 'Payment is made by bank account or transfer. Contact the administrator — payment in Russian rubles is possible.',
 
         // Lead Form Section
         'leadform.title': 'Ready to Send a Parcel?',

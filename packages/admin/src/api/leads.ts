@@ -46,7 +46,7 @@ export const leadsApi = {
     return response.data;
   },
 
-  updateLead: async (id: string, data: { status?: string; assignedToAdminId?: string }) => {
+  updateLead: async (id: string, data: Partial<Lead>) => {
     const response = await apiClient.put(`/leads/${id}`, data);
     return response.data;
   },

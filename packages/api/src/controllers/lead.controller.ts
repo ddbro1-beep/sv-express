@@ -123,13 +123,24 @@ export const updateLead = async (
 ) => {
   try {
     const { id } = req.params;
-    const { status, assignedToAdminId } = req.body;
+    const allowedFields = [
+      'status', 'name', 'email', 'phone',
+      'origin_country_id', 'destination_country_id',
+      'weight_estimate_kg', 'shipment_type', 'message',
+      'assigned_to_admin_id',
+    ];
 
-    const updates: any = { updated_at: new Date().toISOString() };
+    const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
 
-    if (status) updates.status = status;
-    if (assignedToAdminId) updates.assigned_to_admin_id = assignedToAdminId;
-    if (status === 'contacted' && !updates.contacted_at) {
+    // Copy allowed fields from request body
+    for (const field of allowedFields) {
+      if (req.body[field] !== undefined) {
+        updates[field] = req.body[field];
+      }
+    }
+
+    // Auto-set contacted_at when status changes to contacted
+    if (req.body.status === 'contacted' && !updates.contacted_at) {
       updates.contacted_at = new Date().toISOString();
     }
 

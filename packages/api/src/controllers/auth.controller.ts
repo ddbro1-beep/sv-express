@@ -12,6 +12,8 @@ export const login = async (
   try {
     const { email, password } = req.body;
 
+    console.log('[AUTH] Login attempt for:', email);
+
     if (!email || !password) {
       throw new AppError('Email and password are required', 400);
     }
@@ -23,12 +25,22 @@ export const login = async (
       .eq('email', email)
       .single();
 
-    if (error || !user) {
+    if (error) {
+      console.log('[AUTH] Supabase error:', error.message, error.code);
       throw new AppError('Invalid credentials', 401);
     }
 
+    if (!user) {
+      console.log('[AUTH] User not found:', email);
+      throw new AppError('Invalid credentials', 401);
+    }
+
+    console.log('[AUTH] User found:', user.email, 'Role:', user.role);
+    console.log('[AUTH] Password hash exists:', !!user.password_hash);
+
     // Проверить пароль
     const isValidPassword = await comparePassword(password, user.password_hash);
+    console.log('[AUTH] Password valid:', isValidPassword);
 
     if (!isValidPassword) {
       throw new AppError('Invalid credentials', 401);

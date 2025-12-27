@@ -1,182 +1,151 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import Layout from '../components/Layout';
+import KanbanBoard, { KanbanColumn } from '../components/KanbanBoard';
+import ItemModal from '../components/ItemModal';
 import { leadsApi, Lead } from '../api/leads';
 
+const LEAD_COLUMNS: KanbanColumn[] = [
+  { key: 'new', label: 'Новые', color: 'text-blue-700', bgColor: 'bg-blue-100' },
+  { key: 'contacted', label: 'В работе', color: 'text-yellow-700', bgColor: 'bg-yellow-100' },
+  { key: 'converted', label: 'Конвертированы', color: 'text-green-700', bgColor: 'bg-green-100' },
+  { key: 'lost', label: 'Потеряны', color: 'text-red-700', bgColor: 'bg-red-100' },
+];
+
+const LEAD_STATUS_OPTIONS = [
+  { value: 'new', label: 'Новая' },
+  { value: 'contacted', label: 'В работе' },
+  { value: 'converted', label: 'Конвертирована' },
+  { value: 'lost', label: 'Потеряна' },
+];
+
 const Dashboard: React.FC = () => {
-  const { user, logout } = useAuth();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [filter, setFilter] = useState<string>('all');
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     loadLeads();
-  }, [filter]);
+  }, []);
 
   const loadLeads = async () => {
     setIsLoading(true);
     setError('');
-
     try {
-      const params = filter !== 'all' ? { status: filter } : {};
-      const response = await leadsApi.getLeads(params);
+      const response = await leadsApi.getLeads();
       setLeads(response.data.leads);
-    } catch (err: any) {
-      setError(err.message || 'Ошибка загрузки заявок');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Ошибка загрузки заявок';
+      setError(message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    const colors: Record<string, string> = {
-      new: 'bg-blue-100 text-blue-800',
-      contacted: 'bg-yellow-100 text-yellow-800',
-      converted: 'bg-green-100 text-green-800',
-      lost: 'bg-red-100 text-red-800',
-    };
-
-    const labels: Record<string, string> = {
-      new: 'Новая',
-      contacted: 'В работе',
-      converted: 'Конвертирована',
-      lost: 'Потеряна',
-    };
-
-    return (
-      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${colors[status] || 'bg-gray-100 text-gray-800'}`}>
-        {labels[status] || status}
-      </span>
-    );
-  };
-
   const handleStatusChange = async (leadId: string, newStatus: string) => {
     try {
       await leadsApi.updateLead(leadId, { status: newStatus });
-      loadLeads(); // Перезагрузить список
+      // Update local state
+      setLeads(leads.map(lead =>
+        lead.id === leadId ? { ...lead, status: newStatus } : lead
+      ));
+      // Update selected lead if it's the one being changed
+      if (selectedLead?.id === leadId) {
+        setSelectedLead({ ...selectedLead, status: newStatus });
+      }
     } catch (err) {
       alert('Ошибка обновления статуса');
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">SV Express Admin</h1>
-            <p className="text-sm text-gray-600">
-              {user?.firstName} {user?.lastName} ({user?.email})
-            </p>
-          </div>
-          <button
-            onClick={logout}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition"
-          >
-            Выйти
-          </button>
-        </div>
-      </header>
+  const handleItemClick = (lead: Lead) => {
+    setSelectedLead(lead);
+    setIsModalOpen(true);
+  };
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Filters */}
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 className="text-lg font-semibold mb-4">Фильтр по статусу</h2>
-          <div className="flex gap-2">
-            {['all', 'new', 'contacted', 'converted', 'lost'].map((status) => (
-              <button
-                key={status}
-                onClick={() => setFilter(status)}
-                className={`px-4 py-2 rounded-lg transition ${
-                  filter === status
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {status === 'all' ? 'Все' : status === 'new' ? 'Новые' : status === 'contacted' ? 'В работе' : status === 'converted' ? 'Конвертированы' : 'Потеряны'}
-              </button>
-            ))}
-          </div>
-        </div>
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedLead(null);
+  };
 
-        {/* Leads List */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-6 border-b">
-            <h2 className="text-xl font-semibold">
-              Заявки {leads.length > 0 && `(${leads.length})`}
-            </h2>
-          </div>
+  const handleSave = async (updates: Partial<Lead>) => {
+    if (!selectedLead) return;
+    await leadsApi.updateLead(selectedLead.id, updates);
+    // Update local state
+    const updatedLead = { ...selectedLead, ...updates };
+    setLeads(leads.map(lead =>
+      lead.id === selectedLead.id ? updatedLead : lead
+    ));
+    setSelectedLead(updatedLead);
+  };
 
-          {error && (
-            <div className="p-6 bg-red-50 border-b border-red-200 text-red-700">
-              {error}
-            </div>
-          )}
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('ru-RU', {
+      day: '2-digit',
+      month: '2-digit',
+    });
+  };
 
-          {isLoading ? (
-            <div className="p-12 text-center text-gray-500">
-              Загрузка...
-            </div>
-          ) : leads.length === 0 ? (
-            <div className="p-12 text-center text-gray-500">
-              Заявок нет
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Имя</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Телефон</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Маршрут</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Вес</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Статус</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Дата</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Действия</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {leads.map((lead) => (
-                    <tr key={lead.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">{lead.name || '-'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{lead.email || '-'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{lead.phone || '-'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        {lead.origin_country?.code} → {lead.destination_country?.code}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        {lead.weight_estimate_kg ? `${lead.weight_estimate_kg} кг` : '-'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {getStatusBadge(lead.status)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                        {new Date(lead.created_at).toLocaleDateString('ru-RU')}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <select
-                          onChange={(e) => handleStatusChange(lead.id, e.target.value)}
-                          value={lead.status}
-                          className="border border-gray-300 rounded px-2 py-1 text-sm"
-                        >
-                          <option value="new">Новая</option>
-                          <option value="contacted">В работе</option>
-                          <option value="converted">Конвертирована</option>
-                          <option value="lost">Потеряна</option>
-                        </select>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </main>
+  const renderLeadCard = (lead: Lead) => (
+    <div className="space-y-1">
+      <p className="font-medium text-gray-900 text-sm truncate">
+        {lead.name || 'Без имени'}
+      </p>
+      <p className="text-xs text-gray-500 truncate">
+        {lead.email || lead.phone || '—'}
+      </p>
+      <div className="flex items-center justify-between text-xs text-gray-400">
+        <span>
+          {lead.origin_country?.code || '?'} → {lead.destination_country?.code || '?'}
+        </span>
+        <span>
+          {lead.weight_estimate_kg ? `${lead.weight_estimate_kg} кг` : ''}
+        </span>
+      </div>
+      <p className="text-xs text-gray-400">
+        {formatDate(lead.created_at)}
+      </p>
     </div>
+  );
+
+  return (
+    <Layout>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Заявки</h1>
+        <p className="text-gray-600">Заявки на расчёт стоимости с лендинга</p>
+      </div>
+
+      {error && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+          {error}
+        </div>
+      )}
+
+      <KanbanBoard
+        items={leads}
+        columns={LEAD_COLUMNS}
+        getItemStatus={(lead) => lead.status}
+        onStatusChange={handleStatusChange}
+        onItemClick={handleItemClick}
+        renderCard={renderLeadCard}
+        isLoading={isLoading}
+      />
+
+      <ItemModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        type="lead"
+        item={selectedLead}
+        onStatusChange={(newStatus) => {
+          if (selectedLead) {
+            handleStatusChange(selectedLead.id, newStatus);
+          }
+        }}
+        onSave={handleSave}
+        statusOptions={LEAD_STATUS_OPTIONS}
+      />
+    </Layout>
   );
 };
 
