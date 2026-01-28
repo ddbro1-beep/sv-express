@@ -215,6 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const trackingFallbackLink = document.getElementById('tracking-fallback-link');
     const trackingExternalLink = document.getElementById('tracking-external-link');
     const trackingStatusIcon = document.getElementById('tracking-status-icon');
+    const trackingRedirect = document.getElementById('tracking-redirect');
+    const trackingRedirectLink = document.getElementById('tracking-redirect-link');
+    const trackingRedirectNumber = document.getElementById('tracking-redirect-number');
 
     const showTrackingModal = () => {
         if (trackingModal) {
@@ -234,11 +237,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (trackingLoading) trackingLoading.classList.remove('hidden');
         if (trackingContent) trackingContent.classList.add('hidden');
         if (trackingError) trackingError.classList.add('hidden');
+        if (trackingRedirect) trackingRedirect.classList.add('hidden');
     };
 
     const showTrackingResult = (data) => {
         if (trackingLoading) trackingLoading.classList.add('hidden');
         if (trackingError) trackingError.classList.add('hidden');
+        if (trackingRedirect) trackingRedirect.classList.add('hidden');
         if (trackingContent) trackingContent.classList.remove('hidden');
 
         if (trackingNumberEl) trackingNumberEl.textContent = data.trackingNumber;
@@ -286,10 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (trackingExternalLink) trackingExternalLink.href = data.fallbackUrl;
         }
     };
-
-    const trackingRedirect = document.getElementById('tracking-redirect');
-    const trackingRedirectLink = document.getElementById('tracking-redirect-link');
-    const trackingRedirectNumber = document.getElementById('tracking-redirect-number');
 
     const showTrackingError = (fallbackUrl) => {
         if (trackingLoading) trackingLoading.classList.add('hidden');
