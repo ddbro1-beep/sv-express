@@ -452,6 +452,81 @@ rm -rf node_modules package-lock.json && npm install
 - Каждый пакет деплоится **отдельно** из своей папки
 - Vercel автоматически связывает деплой с правильным доменом
 - После деплоя проверить работоспособность на продакшен домене
+- После деплоя API нужно обновить alias: `npx vercel alias <deployment-url> api.sv-express.com`
+
+### Vercel Environment Variables (API)
+
+**КРИТИЧЕСКИ ВАЖНО:** При изменении переменных окружения нужно:
+1. Обновить в Vercel: `npx vercel env add VARIABLE_NAME production --force`
+2. Передеплоить API: `cd packages/api && npx vercel --prod`
+3. Обновить alias: `npx vercel alias <new-deployment> api.sv-express.com`
+
+```bash
+# CORS_ORIGIN - домены с которых разрешены запросы к API
+# ВАЖНО: без пробелов, без \n в конце!
+printf "https://admin.sv-express.com,https://sv-express.com,https://www.sv-express.com" | npx vercel env add CORS_ORIGIN production --force
+```
+
+**Обязательные переменные для API:**
+- `DATABASE_URL` - PostgreSQL connection string
+- `SUPABASE_URL` - Supabase project URL
+- `SUPABASE_ANON_KEY` - Supabase anon key
+- `SUPABASE_SERVICE_KEY` - Supabase service key
+- `JWT_SECRET` - секрет для JWT токенов
+- `JWT_EXPIRES_IN` - время жизни токена (например: 24h)
+- `REFRESH_TOKEN_SECRET` - секрет для refresh токенов
+- `REFRESH_TOKEN_EXPIRES_IN` - время жизни refresh токена (например: 30d)
+- `CORS_ORIGIN` - разрешённые домены через запятую
+- `NODE_ENV` - production
+
+## Конфигурация API (Express)
+
+### Trust Proxy
+API работает за Vercel proxy, поэтому **обязательно**:
+```typescript
+// packages/api/src/index.ts
+app.set('trust proxy', 1);
+```
+Без этого `express-rate-limit` выдаст ошибку `ERR_ERL_UNEXPECTED_X_FORWARDED_FOR`.
+
+### CORS Configuration
+```typescript
+// packages/api/src/config/cors.ts
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map(o => o.trim())
+  : ['http://localhost:5173'];
+
+export const corsOptions: CorsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 200,
+};
+```
+
+## Troubleshooting
+
+### Network Error в админке
+1. Проверить CORS_ORIGIN в Vercel env vars
+2. Убедиться что нет `\n` в конце переменной
+3. Передеплоить API
+
+### API возвращает 403 Challenge
+- Это Vercel Attack Challenge (защита от ботов)
+- В браузере обычно работает, curl блокируется
+- Если блокирует браузер: Vercel Dashboard → Firewall → отключить Bot Protection
+
+### express-rate-limit ошибка X-Forwarded-For
+- Добавить `app.set('trust proxy', 1)` в index.ts
+- Передеплоить API
 
 ## Дизайн-система Admin Panel
 
