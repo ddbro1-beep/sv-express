@@ -422,10 +422,111 @@ npm run build
 rm -rf node_modules package-lock.json && npm install
 ```
 
+## Production URLs (ВАЖНО!)
+
+При деплое на продакшен использовать эти домены:
+
+| Сервис | URL | Папка | Команда деплоя |
+|--------|-----|-------|----------------|
+| **Landing** | https://sv-express.com | `packages/landing` | `cd packages/landing && npx vercel --prod` |
+| **Admin** | https://admin.sv-express.com | `packages/admin` | `cd packages/admin && npx vercel --prod` |
+| **API** | https://api.sv-express.com | `packages/api` | `cd packages/api && npx vercel --prod` |
+
+### Процесс деплоя на продакшен
+
+1. Закоммитить изменения в git
+2. Запушить в GitHub: `git push origin main`
+3. Задеплоить нужный пакет:
+   ```bash
+   # Landing (sv-express.com)
+   cd packages/landing && npx vercel --prod
+
+   # Admin панель (admin.sv-express.com)
+   cd packages/admin && npx vercel --prod
+
+   # API (api.sv-express.com)
+   cd packages/api && npx vercel --prod
+   ```
+
+### Важно при деплое:
+- Каждый пакет деплоится **отдельно** из своей папки
+- Vercel автоматически связывает деплой с правильным доменом
+- После деплоя проверить работоспособность на продакшен домене
+
+## Дизайн-система Admin Panel
+
+### Цвета статусов
+
+```typescript
+// Leads
+new:       bg-blue-50,   text-blue-700,   dot: bg-blue-500
+contacted: bg-yellow-50, text-yellow-700, dot: bg-yellow-500
+converted: bg-green-50,  text-green-700,  dot: bg-green-500
+lost:      bg-red-50,    text-red-700,    dot: bg-red-500
+
+// Orders
+new:        bg-blue-50,   text-blue-700,   dot: bg-blue-500
+processing: bg-yellow-50, text-yellow-700, dot: bg-yellow-500
+shipped:    bg-purple-50, text-purple-700, dot: bg-purple-500
+delivered:  bg-green-50,  text-green-700,  dot: bg-green-500
+cancelled:  bg-red-50,    text-red-700,    dot: bg-red-500
+```
+
+### Mobile-first подход
+
+- **Breakpoints:** sm (640px), md (768px), lg (1024px), xl (1280px)
+- **Touch targets:** минимум 44px для всех интерактивных элементов
+- **Класс `touch-manipulation`:** добавлять на все кнопки и интерактивные элементы
+
+### Компоненты
+
+**KanbanBoard:**
+- Использует `@dnd-kit/core` для touch-friendly drag-drop
+- Горизонтальный скролл на мобильных
+- TouchSensor с delay 200ms, PointerSensor с distance 8px
+
+**ItemModal:**
+- Full-screen на мобильных (rounded-t-2xl)
+- flex-col на мобильных, flex-row на lg+
+- Timeline панель: full width на мобильных, w-80 sidebar на desktop
+
+**Layout:**
+- Hamburger меню на мобильных (sm:hidden)
+- Slide-in navigation drawer
+- Sticky header
+
+### Карточки
+
+**Lead Card:**
+```
+┌─────────────────────────────┐
+│ 🔵 Новая          12 янв   │
+├─────────────────────────────┤
+│ Иван Иванов                 │
+│ +7 900 123-45-67            │
+│ ─────────────────────────── │
+│ 🇫🇷 → 🇷🇺         ~15 кг    │
+└─────────────────────────────┘
+```
+
+**Order Card:**
+```
+┌─────────────────────────────┐
+│ 🟡 В обработке  🛡️   150€  │
+├─────────────────────────────┤
+│ Мария Петрова               │
+│ maria@email.com             │
+│ France → Russia | 5.2 кг    │
+│ 📅 15 янв         2 товара  │
+└─────────────────────────────┘
+```
+
 ## Контакты и ресурсы
 
 - **GitHub Repo:** https://github.com/ddbro1-beep/sv-express
-- **Production:** https://sv-express-one.vercel.app
+- **Production Landing:** https://sv-express.com
+- **Production Admin:** https://admin.sv-express.com
+- **Production API:** https://api.sv-express.com
 - **Supabase Dashboard:** https://supabase.com/dashboard
 - **Vercel Dashboard:** https://vercel.com/dashboard
 
