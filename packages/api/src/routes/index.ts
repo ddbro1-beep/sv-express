@@ -4,6 +4,7 @@ import leadRoutes from './lead.routes';
 import countryRoutes from './country.routes';
 import orderRoutes from './order.routes';
 import commentRoutes from './comment.routes';
+import trackingRoutes from './tracking.routes';
 
 const router = Router();
 
@@ -12,6 +13,7 @@ router.use('/leads', leadRoutes);
 router.use('/countries', countryRoutes);
 router.use('/orders', orderRoutes);
 router.use('/comments', commentRoutes);
+router.use('/tracking', trackingRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

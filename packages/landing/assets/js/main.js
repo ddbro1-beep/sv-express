@@ -201,16 +201,180 @@ document.addEventListener('DOMContentLoaded', () => {
 
     recalc();
 
-    // Tracking redirect to track.global
-    const handleTrack = () => {
+    // Tracking Modal Logic
+    const trackingModal = document.getElementById('tracking-modal');
+    const trackingLoading = document.getElementById('tracking-loading');
+    const trackingContent = document.getElementById('tracking-content');
+    const trackingError = document.getElementById('tracking-error');
+    const trackingNumberEl = document.getElementById('tracking-number');
+    const trackingStatusEl = document.getElementById('tracking-status');
+    const trackingCarrierEl = document.getElementById('tracking-carrier');
+    const trackingUpdateEl = document.getElementById('tracking-update');
+    const trackingEventsBlock = document.getElementById('tracking-events-block');
+    const trackingEventsEl = document.getElementById('tracking-events');
+    const trackingFallbackLink = document.getElementById('tracking-fallback-link');
+    const trackingExternalLink = document.getElementById('tracking-external-link');
+    const trackingStatusIcon = document.getElementById('tracking-status-icon');
+
+    const showTrackingModal = () => {
+        if (trackingModal) {
+            trackingModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+    };
+
+    const hideTrackingModal = () => {
+        if (trackingModal) {
+            trackingModal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    };
+
+    const showTrackingLoading = () => {
+        if (trackingLoading) trackingLoading.classList.remove('hidden');
+        if (trackingContent) trackingContent.classList.add('hidden');
+        if (trackingError) trackingError.classList.add('hidden');
+    };
+
+    const showTrackingResult = (data) => {
+        if (trackingLoading) trackingLoading.classList.add('hidden');
+        if (trackingError) trackingError.classList.add('hidden');
+        if (trackingContent) trackingContent.classList.remove('hidden');
+
+        if (trackingNumberEl) trackingNumberEl.textContent = data.trackingNumber;
+        if (trackingStatusEl) trackingStatusEl.textContent = data.currentStatus || t('tracking.modal.inprogress');
+        if (trackingCarrierEl) {
+            trackingCarrierEl.textContent = data.carrier ? `${t('tracking.modal.carrier')}: ${data.carrier}` : '';
+        }
+        if (trackingUpdateEl && data.lastUpdate) {
+            trackingUpdateEl.textContent = `${t('tracking.modal.updated')}: ${data.lastUpdate}`;
+        }
+
+        // Update status icon based on status
+        if (trackingStatusIcon) {
+            const status = (data.currentStatus || '').toLowerCase();
+            if (status.includes('доставлен') || status.includes('delivered') || status.includes('вручен')) {
+                trackingStatusIcon.className = 'w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0';
+                trackingStatusIcon.innerHTML = '<span class="iconify" data-icon="lucide:check-circle" data-width="20"></span>';
+            } else if (status.includes('в пути') || status.includes('transit') || status.includes('отправлен')) {
+                trackingStatusIcon.className = 'w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0';
+                trackingStatusIcon.innerHTML = '<span class="iconify" data-icon="lucide:truck" data-width="20"></span>';
+            } else {
+                trackingStatusIcon.className = 'w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center shrink-0';
+                trackingStatusIcon.innerHTML = '<span class="iconify" data-icon="lucide:package" data-width="20"></span>';
+            }
+        }
+
+        // Show events if available
+        if (data.events && data.events.length > 0 && trackingEventsBlock && trackingEventsEl) {
+            trackingEventsBlock.classList.remove('hidden');
+            trackingEventsEl.innerHTML = data.events.map(event => `
+                <div class="flex gap-3 text-sm">
+                    <div class="w-2 h-2 rounded-full bg-blue-400 mt-1.5 shrink-0"></div>
+                    <div class="flex-1">
+                        <p class="text-slate-700">${event.status}</p>
+                        <p class="text-xs text-slate-400">${[event.date, event.time, event.location].filter(Boolean).join(' • ')}</p>
+                    </div>
+                </div>
+            `).join('');
+        } else if (trackingEventsBlock) {
+            trackingEventsBlock.classList.add('hidden');
+        }
+
+        // Update external links
+        if (data.fallbackUrl) {
+            if (trackingExternalLink) trackingExternalLink.href = data.fallbackUrl;
+        }
+    };
+
+    const trackingRedirect = document.getElementById('tracking-redirect');
+    const trackingRedirectLink = document.getElementById('tracking-redirect-link');
+    const trackingRedirectNumber = document.getElementById('tracking-redirect-number');
+
+    const showTrackingError = (fallbackUrl) => {
+        if (trackingLoading) trackingLoading.classList.add('hidden');
+        if (trackingContent) trackingContent.classList.add('hidden');
+        if (trackingRedirect) trackingRedirect.classList.add('hidden');
+        if (trackingError) trackingError.classList.remove('hidden');
+
+        if (trackingFallbackLink && fallbackUrl) {
+            trackingFallbackLink.href = fallbackUrl;
+        }
+        if (trackingExternalLink && fallbackUrl) {
+            trackingExternalLink.href = fallbackUrl;
+        }
+    };
+
+    const showTrackingRedirect = (trackingNumber, fallbackUrl) => {
+        if (trackingLoading) trackingLoading.classList.add('hidden');
+        if (trackingContent) trackingContent.classList.add('hidden');
+        if (trackingError) trackingError.classList.add('hidden');
+        if (trackingRedirect) trackingRedirect.classList.remove('hidden');
+
+        if (trackingRedirectNumber) {
+            trackingRedirectNumber.textContent = trackingNumber;
+        }
+        if (trackingRedirectLink && fallbackUrl) {
+            trackingRedirectLink.href = fallbackUrl;
+        }
+        if (trackingExternalLink && fallbackUrl) {
+            trackingExternalLink.href = fallbackUrl;
+        }
+    };
+
+    // Close modal handlers
+    if (trackingModal) {
+        trackingModal.querySelectorAll('[data-tracking-close]').forEach(el => {
+            el.addEventListener('click', hideTrackingModal);
+        });
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !trackingModal.classList.contains('hidden')) {
+                hideTrackingModal();
+            }
+        });
+    }
+
+    // Tracking with API proxy
+    const handleTrack = async () => {
         if (!trackInput) return;
         const code = (trackInput.value || '').trim();
         if (!code) {
             trackInput.focus();
             return;
         }
-        const url = `https://track.global/ru?tracking=${encodeURIComponent(code)}`;
-        window.open(url, '_blank', 'noopener,noreferrer');
+
+        const fallbackUrl = `https://track.global/${currentLang}?tracking=${encodeURIComponent(code)}`;
+
+        // Show modal with loading state
+        showTrackingModal();
+        showTrackingLoading();
+
+        try {
+            // Try our API first - use relative URL for same-origin or configured API URL
+            const apiBaseUrl = window.SV_EXPRESS_API_URL || '';
+            const apiUrl = `${apiBaseUrl}/api/tracking/${encodeURIComponent(code)}?lang=${currentLang}`;
+            const response = await fetch(apiUrl);
+            const result = await response.json();
+
+            if (result.success && result.data) {
+                if (result.data.found) {
+                    showTrackingResult(result.data);
+                } else if (result.data.requiresRedirect) {
+                    // Service available but needs redirect to track.global
+                    showTrackingRedirect(code, result.data.fallbackUrl || fallbackUrl);
+                } else {
+                    // Package genuinely not found
+                    showTrackingError(result.data.fallbackUrl || fallbackUrl);
+                }
+            } else {
+                showTrackingError(fallbackUrl);
+            }
+        } catch (err) {
+            console.warn('Tracking API error, using fallback:', err);
+            // On any error, show redirect state (more positive UX)
+            showTrackingRedirect(code, fallbackUrl);
+        }
     };
 
     if (trackButton) {

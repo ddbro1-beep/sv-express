@@ -143,6 +143,23 @@ const translations = {
         'tracking.button': 'Отследить',
         'tracking.notice': 'Как правило, информация начинает обновляться через 3-7 дней, после получения трек-кода. Иногда, с момента получения трек-кода, до начала отслеживания может пройти 2 недели. Свяжитесь с поддержкой, если трек-код не отслеживается более 14 дней, как на нашем сайте так и на сайте торговой площадки.',
 
+        // Tracking Modal
+        'tracking.modal.title': 'Статус посылки',
+        'tracking.modal.loading': 'Загрузка...',
+        'tracking.modal.number': 'Трек-номер:',
+        'tracking.modal.carrier': 'Перевозчик',
+        'tracking.modal.updated': 'Обновлено',
+        'tracking.modal.history': 'История',
+        'tracking.modal.notfound': 'Посылка не найдена',
+        'tracking.modal.notfound.hint': 'Проверьте правильность трек-номера или попробуйте позже',
+        'tracking.modal.external': 'Открыть на track.global',
+        'tracking.modal.viewfull': 'Подробнее на track.global',
+        'tracking.modal.close': 'Закрыть',
+        'tracking.modal.inprogress': 'В обработке',
+        'tracking.modal.redirect.title': 'Отслеживание доступно',
+        'tracking.modal.redirect.hint': 'Нажмите кнопку для просмотра статуса на track.global',
+        'tracking.modal.redirect.button': 'Открыть отслеживание',
+
         // Reviews Section
         'reviews.title': 'Отзывы клиентов',
         'reviews.rating': '4.9/5',
@@ -853,6 +870,23 @@ const translations = {
         'tracking.placeholder': 'e.g. SV-2024-00142',
         'tracking.button': 'Track',
         'tracking.notice': 'Typically, information starts updating within 3-7 days after receiving the tracking code. Sometimes, tracking may take up to 2 weeks from the time you receive the code. Contact support if the tracking code shows no updates for more than 14 days on both our website and the marketplace website.',
+
+        // Tracking Modal
+        'tracking.modal.title': 'Package Status',
+        'tracking.modal.loading': 'Loading...',
+        'tracking.modal.number': 'Tracking number:',
+        'tracking.modal.carrier': 'Carrier',
+        'tracking.modal.updated': 'Updated',
+        'tracking.modal.history': 'History',
+        'tracking.modal.notfound': 'Package not found',
+        'tracking.modal.notfound.hint': 'Please check the tracking number or try again later',
+        'tracking.modal.external': 'Open on track.global',
+        'tracking.modal.viewfull': 'View details on track.global',
+        'tracking.modal.close': 'Close',
+        'tracking.modal.inprogress': 'In progress',
+        'tracking.modal.redirect.title': 'Tracking available',
+        'tracking.modal.redirect.hint': 'Click the button to view status on track.global',
+        'tracking.modal.redirect.button': 'Open tracking',
 
         // Reviews Section
         'reviews.title': 'Customer Reviews',
