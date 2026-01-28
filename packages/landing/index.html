@@ -897,7 +897,12 @@
                         </a>
                     </div>
 
-                    <!-- Redirect State (when API can't fetch but link is available) -->
+                    <!-- Iframe State (embedded track.global) -->
+                    <div id="tracking-iframe-container" class="hidden">
+                        <iframe id="tracking-iframe" src="" class="w-full h-[400px] border-0 rounded-lg bg-slate-50" allow="fullscreen"></iframe>
+                    </div>
+
+                    <!-- Redirect State (fallback when iframe doesn't work) -->
                     <div id="tracking-redirect" class="hidden text-center py-6">
                         <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center mx-auto mb-4">
                             <span class="iconify" data-icon="lucide:external-link" data-width="32"></span>

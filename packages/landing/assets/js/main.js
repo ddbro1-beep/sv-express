@@ -218,6 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const trackingRedirect = document.getElementById('tracking-redirect');
     const trackingRedirectLink = document.getElementById('tracking-redirect-link');
     const trackingRedirectNumber = document.getElementById('tracking-redirect-number');
+    const trackingIframeContainer = document.getElementById('tracking-iframe-container');
+    const trackingIframe = document.getElementById('tracking-iframe');
 
     const showTrackingModal = () => {
         if (trackingModal) {
@@ -238,12 +240,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (trackingContent) trackingContent.classList.add('hidden');
         if (trackingError) trackingError.classList.add('hidden');
         if (trackingRedirect) trackingRedirect.classList.add('hidden');
+        if (trackingIframeContainer) trackingIframeContainer.classList.add('hidden');
+    };
+
+    const showTrackingIframe = (url) => {
+        if (trackingLoading) trackingLoading.classList.add('hidden');
+        if (trackingContent) trackingContent.classList.add('hidden');
+        if (trackingError) trackingError.classList.add('hidden');
+        if (trackingRedirect) trackingRedirect.classList.add('hidden');
+        if (trackingIframeContainer) trackingIframeContainer.classList.remove('hidden');
+        if (trackingIframe) trackingIframe.src = url;
     };
 
     const showTrackingResult = (data) => {
         if (trackingLoading) trackingLoading.classList.add('hidden');
         if (trackingError) trackingError.classList.add('hidden');
         if (trackingRedirect) trackingRedirect.classList.add('hidden');
+        if (trackingIframeContainer) trackingIframeContainer.classList.add('hidden');
         if (trackingContent) trackingContent.classList.remove('hidden');
 
         if (trackingNumberEl) trackingNumberEl.textContent = data.trackingNumber;
@@ -296,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (trackingLoading) trackingLoading.classList.add('hidden');
         if (trackingContent) trackingContent.classList.add('hidden');
         if (trackingRedirect) trackingRedirect.classList.add('hidden');
+        if (trackingIframeContainer) trackingIframeContainer.classList.add('hidden');
         if (trackingError) trackingError.classList.remove('hidden');
 
         if (trackingFallbackLink && fallbackUrl) {
@@ -310,6 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (trackingLoading) trackingLoading.classList.add('hidden');
         if (trackingContent) trackingContent.classList.add('hidden');
         if (trackingError) trackingError.classList.add('hidden');
+        if (trackingIframeContainer) trackingIframeContainer.classList.add('hidden');
         if (trackingRedirect) trackingRedirect.classList.remove('hidden');
 
         if (trackingRedirectNumber) {
@@ -336,8 +351,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Tracking with API proxy
-    const handleTrack = async () => {
+    // Tracking with embedded iframe
+    const handleTrack = () => {
         if (!trackInput) return;
         const code = (trackInput.value || '').trim();
         if (!code) {
@@ -345,37 +360,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const fallbackUrl = `https://track.global/${currentLang}?tracking=${encodeURIComponent(code)}`;
+        const trackUrl = `https://track.global/${currentLang}?tracking=${encodeURIComponent(code)}`;
 
-        // Show modal with loading state
+        // Show modal with iframe
         showTrackingModal();
-        showTrackingLoading();
+        showTrackingIframe(trackUrl);
 
-        try {
-            // Try our API first - use relative URL for same-origin or configured API URL
-            const apiBaseUrl = window.SV_EXPRESS_API_URL || '';
-            const apiUrl = `${apiBaseUrl}/api/tracking/${encodeURIComponent(code)}?lang=${currentLang}`;
-            const response = await fetch(apiUrl);
-            const result = await response.json();
-
-            if (result.success && result.data) {
-                if (result.data.found) {
-                    showTrackingResult(result.data);
-                } else if (result.data.requiresRedirect) {
-                    // Service available but needs redirect to track.global
-                    showTrackingRedirect(code, result.data.fallbackUrl || fallbackUrl);
-                } else {
-                    // Package genuinely not found
-                    showTrackingError(result.data.fallbackUrl || fallbackUrl);
-                }
-            } else {
-                showTrackingError(fallbackUrl);
-            }
-        } catch (err) {
-            console.warn('Tracking API error, using fallback:', err);
-            // On any error, show redirect state (more positive UX)
-            showTrackingRedirect(code, fallbackUrl);
-        }
+        // Update external link
+        if (trackingExternalLink) trackingExternalLink.href = trackUrl;
     };
 
     if (trackButton) {
