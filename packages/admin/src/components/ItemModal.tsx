@@ -203,9 +203,9 @@ const ItemModal: React.FC<ItemModalProps> = ({
         </div>
 
         {/* Content - Stack on mobile, side-by-side on larger screens */}
-        <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
+        <div className="flex-1 overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row">
           {/* Left Panel - Editable Data */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:border-r border-gray-200">
+          <div className="flex-1 lg:overflow-y-auto p-4 sm:p-6 lg:border-r border-gray-200">
             <h3 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <span className="w-6 h-6 flex items-center justify-center bg-gray-100 rounded text-sm">
                 📋
@@ -505,7 +505,7 @@ const ItemModal: React.FC<ItemModalProps> = ({
           </div>
 
           {/* Right Panel - Timeline - Full width on mobile, sidebar on larger screens */}
-          <div className="w-full lg:w-80 flex-shrink-0 overflow-y-auto p-4 sm:p-6 bg-gray-50 border-t lg:border-t-0 lg:border-l border-gray-200">
+          <div className="w-full lg:w-80 flex-shrink-0 lg:overflow-y-auto p-4 sm:p-6 bg-gray-50 border-t lg:border-t-0 lg:border-l border-gray-200">
             <Timeline
               entityType={type}
               entityId={item.id}
