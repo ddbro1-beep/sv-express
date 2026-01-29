@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (el.placeholder) {
                     el.placeholder = translation;
                 }
-            } else if (el.tagName === 'TITLE') {
-                el.textContent = translation;
+            } else if (el.tagName === 'META') {
+                el.setAttribute('content', translation);
             } else {
                 el.textContent = translation;
             }
@@ -123,9 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const noteEl = document.getElementById('calc-note');
     const fromCountry = document.getElementById('from-country');
     const toCountry = document.getElementById('to-country');
-    const trackInput = document.getElementById('track-input');
-    const trackButton = document.getElementById('track-button');
-
     const tariffs = {
         small: 95,   // до 10 кг
         medium: 156, // до 20 кг
@@ -147,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const recalc = () => {
+    function recalc() {
         try {
             if (!weightRange || !priceEl || !noteEl) return;
 
@@ -186,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.warn('Calc error:', err);
             }
         }
-    };
+    }
 
     if (weightRange) {
         weightRange.addEventListener('input', recalc);
@@ -200,187 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     recalc();
-
-    // Tracking Modal Logic
-    const trackingModal = document.getElementById('tracking-modal');
-    const trackingLoading = document.getElementById('tracking-loading');
-    const trackingContent = document.getElementById('tracking-content');
-    const trackingError = document.getElementById('tracking-error');
-    const trackingNumberEl = document.getElementById('tracking-number');
-    const trackingStatusEl = document.getElementById('tracking-status');
-    const trackingCarrierEl = document.getElementById('tracking-carrier');
-    const trackingUpdateEl = document.getElementById('tracking-update');
-    const trackingEventsBlock = document.getElementById('tracking-events-block');
-    const trackingEventsEl = document.getElementById('tracking-events');
-    const trackingFallbackLink = document.getElementById('tracking-fallback-link');
-    const trackingExternalLink = document.getElementById('tracking-external-link');
-    const trackingStatusIcon = document.getElementById('tracking-status-icon');
-    const trackingRedirect = document.getElementById('tracking-redirect');
-    const trackingRedirectLink = document.getElementById('tracking-redirect-link');
-    const trackingRedirectNumber = document.getElementById('tracking-redirect-number');
-    const trackingIframeContainer = document.getElementById('tracking-iframe-container');
-    const trackingIframe = document.getElementById('tracking-iframe');
-
-    const showTrackingModal = () => {
-        if (trackingModal) {
-            trackingModal.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        }
-    };
-
-    const hideTrackingModal = () => {
-        if (trackingModal) {
-            trackingModal.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-    };
-
-    const showTrackingLoading = () => {
-        if (trackingLoading) trackingLoading.classList.remove('hidden');
-        if (trackingContent) trackingContent.classList.add('hidden');
-        if (trackingError) trackingError.classList.add('hidden');
-        if (trackingRedirect) trackingRedirect.classList.add('hidden');
-        if (trackingIframeContainer) trackingIframeContainer.classList.add('hidden');
-    };
-
-    const showTrackingIframe = (url) => {
-        if (trackingLoading) trackingLoading.classList.add('hidden');
-        if (trackingContent) trackingContent.classList.add('hidden');
-        if (trackingError) trackingError.classList.add('hidden');
-        if (trackingRedirect) trackingRedirect.classList.add('hidden');
-        if (trackingIframeContainer) trackingIframeContainer.classList.remove('hidden');
-        if (trackingIframe) trackingIframe.src = url;
-    };
-
-    const showTrackingResult = (data) => {
-        if (trackingLoading) trackingLoading.classList.add('hidden');
-        if (trackingError) trackingError.classList.add('hidden');
-        if (trackingRedirect) trackingRedirect.classList.add('hidden');
-        if (trackingIframeContainer) trackingIframeContainer.classList.add('hidden');
-        if (trackingContent) trackingContent.classList.remove('hidden');
-
-        if (trackingNumberEl) trackingNumberEl.textContent = data.trackingNumber;
-        if (trackingStatusEl) trackingStatusEl.textContent = data.currentStatus || t('tracking.modal.inprogress');
-        if (trackingCarrierEl) {
-            trackingCarrierEl.textContent = data.carrier ? `${t('tracking.modal.carrier')}: ${data.carrier}` : '';
-        }
-        if (trackingUpdateEl && data.lastUpdate) {
-            trackingUpdateEl.textContent = `${t('tracking.modal.updated')}: ${data.lastUpdate}`;
-        }
-
-        // Update status icon based on status
-        if (trackingStatusIcon) {
-            const status = (data.currentStatus || '').toLowerCase();
-            if (status.includes('доставлен') || status.includes('delivered') || status.includes('вручен')) {
-                trackingStatusIcon.className = 'w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0';
-                trackingStatusIcon.innerHTML = '<span class="iconify" data-icon="lucide:check-circle" data-width="20"></span>';
-            } else if (status.includes('в пути') || status.includes('transit') || status.includes('отправлен')) {
-                trackingStatusIcon.className = 'w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0';
-                trackingStatusIcon.innerHTML = '<span class="iconify" data-icon="lucide:truck" data-width="20"></span>';
-            } else {
-                trackingStatusIcon.className = 'w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center shrink-0';
-                trackingStatusIcon.innerHTML = '<span class="iconify" data-icon="lucide:package" data-width="20"></span>';
-            }
-        }
-
-        // Show events if available
-        if (data.events && data.events.length > 0 && trackingEventsBlock && trackingEventsEl) {
-            trackingEventsBlock.classList.remove('hidden');
-            trackingEventsEl.innerHTML = data.events.map(event => `
-                <div class="flex gap-3 text-sm">
-                    <div class="w-2 h-2 rounded-full bg-blue-400 mt-1.5 shrink-0"></div>
-                    <div class="flex-1">
-                        <p class="text-slate-700">${event.status}</p>
-                        <p class="text-xs text-slate-400">${[event.date, event.time, event.location].filter(Boolean).join(' • ')}</p>
-                    </div>
-                </div>
-            `).join('');
-        } else if (trackingEventsBlock) {
-            trackingEventsBlock.classList.add('hidden');
-        }
-
-        // Update external links
-        if (data.fallbackUrl) {
-            if (trackingExternalLink) trackingExternalLink.href = data.fallbackUrl;
-        }
-    };
-
-    const showTrackingError = (fallbackUrl) => {
-        if (trackingLoading) trackingLoading.classList.add('hidden');
-        if (trackingContent) trackingContent.classList.add('hidden');
-        if (trackingRedirect) trackingRedirect.classList.add('hidden');
-        if (trackingIframeContainer) trackingIframeContainer.classList.add('hidden');
-        if (trackingError) trackingError.classList.remove('hidden');
-
-        if (trackingFallbackLink && fallbackUrl) {
-            trackingFallbackLink.href = fallbackUrl;
-        }
-        if (trackingExternalLink && fallbackUrl) {
-            trackingExternalLink.href = fallbackUrl;
-        }
-    };
-
-    const showTrackingRedirect = (trackingNumber, fallbackUrl) => {
-        if (trackingLoading) trackingLoading.classList.add('hidden');
-        if (trackingContent) trackingContent.classList.add('hidden');
-        if (trackingError) trackingError.classList.add('hidden');
-        if (trackingIframeContainer) trackingIframeContainer.classList.add('hidden');
-        if (trackingRedirect) trackingRedirect.classList.remove('hidden');
-
-        if (trackingRedirectNumber) {
-            trackingRedirectNumber.textContent = trackingNumber;
-        }
-        if (trackingRedirectLink && fallbackUrl) {
-            trackingRedirectLink.href = fallbackUrl;
-        }
-        if (trackingExternalLink && fallbackUrl) {
-            trackingExternalLink.href = fallbackUrl;
-        }
-    };
-
-    // Close modal handlers
-    if (trackingModal) {
-        trackingModal.querySelectorAll('[data-tracking-close]').forEach(el => {
-            el.addEventListener('click', hideTrackingModal);
-        });
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !trackingModal.classList.contains('hidden')) {
-                hideTrackingModal();
-            }
-        });
-    }
-
-    // Tracking with embedded iframe
-    const handleTrack = () => {
-        if (!trackInput) return;
-        const code = (trackInput.value || '').trim();
-        if (!code) {
-            trackInput.focus();
-            return;
-        }
-
-        const trackUrl = `https://track.global/${currentLang}?tracking=${encodeURIComponent(code)}`;
-
-        // Show modal with iframe
-        showTrackingModal();
-        showTrackingIframe(trackUrl);
-
-        // Update external link
-        if (trackingExternalLink) trackingExternalLink.href = trackUrl;
-    };
-
-    if (trackButton) {
-        trackButton.addEventListener('click', handleTrack);
-    }
-    if (trackInput) {
-        trackInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                handleTrack();
-            }
-        });
-    }
 
     // Lead form submission
     const leadForm = document.getElementById('lead-form-submit');
@@ -420,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
             leadSubmitBtn.classList.add('opacity-70', 'cursor-not-allowed');
 
             try {
-                const apiUrl = 'https://api-oy5fw1sm7-gregs-projects-c94a974d.vercel.app/api/leads';
+                const apiUrl = (window.SV_EXPRESS_API_URL || 'https://api.sv-express.com') + '/api/leads';
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {

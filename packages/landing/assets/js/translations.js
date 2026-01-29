@@ -139,26 +139,8 @@ const translations = {
 
         // Tracking Section
         'tracking.title': 'Где моя посылка?',
-        'tracking.placeholder': 'Например: SV-2024-00142',
-        'tracking.button': 'Отследить',
+        'tracking.button': 'Отследить на track.global',
         'tracking.notice': 'Как правило, информация начинает обновляться через 3-7 дней, после получения трек-кода. Иногда, с момента получения трек-кода, до начала отслеживания может пройти 2 недели. Свяжитесь с поддержкой, если трек-код не отслеживается более 14 дней, как на нашем сайте так и на сайте торговой площадки.',
-
-        // Tracking Modal
-        'tracking.modal.title': 'Статус посылки',
-        'tracking.modal.loading': 'Загрузка...',
-        'tracking.modal.number': 'Трек-номер:',
-        'tracking.modal.carrier': 'Перевозчик',
-        'tracking.modal.updated': 'Обновлено',
-        'tracking.modal.history': 'История',
-        'tracking.modal.notfound': 'Посылка не найдена',
-        'tracking.modal.notfound.hint': 'Проверьте правильность трек-номера или попробуйте позже',
-        'tracking.modal.external': 'Открыть на track.global',
-        'tracking.modal.viewfull': 'Подробнее на track.global',
-        'tracking.modal.close': 'Закрыть',
-        'tracking.modal.inprogress': 'В обработке',
-        'tracking.modal.redirect.title': 'Отслеживание доступно',
-        'tracking.modal.redirect.hint': 'Нажмите кнопку для просмотра статуса на track.global',
-        'tracking.modal.redirect.button': 'Открыть отслеживание',
 
         // Reviews Section
         'reviews.title': 'Отзывы клиентов',
@@ -295,6 +277,8 @@ const translations = {
         // =============================================
         // PACKAGING PAGE
         // =============================================
+        'packaging.meta.title': 'Правила упаковки посылок | SV Express',
+        'packaging.meta.description': 'Правила упаковки посылок для отправки из Европы в Россию и СНГ. Требования к размерам, упаковке хрупких предметов и жидкостей.',
         'packaging.title': 'Правила упаковки посылок',
         'packaging.subtitle': 'Из Европы в Россию и СНГ',
         'packaging.back': 'На главную',
@@ -342,6 +326,8 @@ const translations = {
         // =============================================
         // PROHIBITED PAGE
         // =============================================
+        'prohibited.meta.title': 'Запрещённые товары | SV Express',
+        'prohibited.meta.description': 'Список товаров, запрещённых к пересылке в Российскую Федерацию. Ознакомьтесь перед отправкой посылки.',
         'prohibited.title': 'Запрещённые товары',
         'prohibited.subtitle': 'Список товаров, запрещённых к пересылке в Российскую Федерацию',
         'prohibited.back': 'На главную',
@@ -422,6 +408,8 @@ const translations = {
         // =============================================
         // PRIVACY PAGE
         // =============================================
+        'privacy.meta.title': 'Политика конфиденциальности | SV Express',
+        'privacy.meta.description': 'Политика конфиденциальности SV Express. Информация о сборе, хранении и обработке персональных данных.',
         'privacy.title': 'Политика конфиденциальности',
         'privacy.subtitle': 'Защита персональных данных пользователей',
         'privacy.back': 'На главную',
@@ -867,26 +855,8 @@ const translations = {
 
         // Tracking Section
         'tracking.title': 'Where Is My Parcel?',
-        'tracking.placeholder': 'e.g. SV-2024-00142',
-        'tracking.button': 'Track',
+        'tracking.button': 'Track on track.global',
         'tracking.notice': 'Typically, information starts updating within 3-7 days after receiving the tracking code. Sometimes, tracking may take up to 2 weeks from the time you receive the code. Contact support if the tracking code shows no updates for more than 14 days on both our website and the marketplace website.',
-
-        // Tracking Modal
-        'tracking.modal.title': 'Package Status',
-        'tracking.modal.loading': 'Loading...',
-        'tracking.modal.number': 'Tracking number:',
-        'tracking.modal.carrier': 'Carrier',
-        'tracking.modal.updated': 'Updated',
-        'tracking.modal.history': 'History',
-        'tracking.modal.notfound': 'Package not found',
-        'tracking.modal.notfound.hint': 'Please check the tracking number or try again later',
-        'tracking.modal.external': 'Open on track.global',
-        'tracking.modal.viewfull': 'View details on track.global',
-        'tracking.modal.close': 'Close',
-        'tracking.modal.inprogress': 'In progress',
-        'tracking.modal.redirect.title': 'Tracking available',
-        'tracking.modal.redirect.hint': 'Click the button to view status on track.global',
-        'tracking.modal.redirect.button': 'Open tracking',
 
         // Reviews Section
         'reviews.title': 'Customer Reviews',
@@ -1023,6 +993,8 @@ const translations = {
         // =============================================
         // PACKAGING PAGE
         // =============================================
+        'packaging.meta.title': 'Packaging Rules | SV Express',
+        'packaging.meta.description': 'Parcel packaging rules for shipping from Europe to Russia and CIS. Requirements for dimensions, fragile items and liquids packaging.',
         'packaging.title': 'Packaging Rules',
         'packaging.subtitle': 'From Europe to Russia and CIS',
         'packaging.back': 'Back to Home',
@@ -1070,6 +1042,8 @@ const translations = {
         // =============================================
         // PROHIBITED PAGE
         // =============================================
+        'prohibited.meta.title': 'Prohibited Items | SV Express',
+        'prohibited.meta.description': 'List of items prohibited for shipment to the Russian Federation. Review before sending a parcel.',
         'prohibited.title': 'Prohibited Items',
         'prohibited.subtitle': 'List of items prohibited for shipment to the Russian Federation',
         'prohibited.back': 'Back to Home',
@@ -1150,6 +1124,8 @@ const translations = {
         // =============================================
         // PRIVACY PAGE
         // =============================================
+        'privacy.meta.title': 'Privacy Policy | SV Express',
+        'privacy.meta.description': 'SV Express Privacy Policy. Information about collection, storage and processing of personal data.',
         'privacy.title': 'Privacy Policy',
         'privacy.subtitle': 'User Personal Data Protection',
         'privacy.back': 'Back to Home',
