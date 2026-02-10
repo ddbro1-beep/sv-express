@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Layout from '../components/Layout';
 import KanbanBoard, { KanbanColumn } from '../components/KanbanBoard';
+import ListView from '../components/ListView';
+import ViewToggle from '../components/ViewToggle';
 import ItemModal from '../components/ItemModal';
 import { ordersApi, Order } from '../api/orders';
 
@@ -36,6 +38,10 @@ const Orders: React.FC = () => {
   const [error, setError] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [view, setView] = useState<'kanban' | 'list'>(() => {
+    const saved = localStorage.getItem('orders-view');
+    return (saved === 'kanban' || saved === 'list') ? saved : 'list';
+  });
 
   useEffect(() => {
     loadOrders();
@@ -105,6 +111,11 @@ const Orders: React.FC = () => {
       day: 'numeric',
       month: 'short',
     });
+  };
+
+  const handleViewChange = (newView: 'kanban' | 'list') => {
+    setView(newView);
+    localStorage.setItem('orders-view', newView);
   };
 
   const calculateTotalValue = (items?: Array<{ price?: number; quantity?: number }>) => {
@@ -183,9 +194,12 @@ const Orders: React.FC = () => {
 
   return (
     <Layout>
-      <div className="mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Заказы</h1>
-        <p className="text-sm sm:text-base text-gray-600">Заказы с декларациями с лендинга</p>
+      <div className="mb-6 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Заказы</h1>
+          <p className="text-sm sm:text-base text-gray-600">Заказы с декларациями с лендинга</p>
+        </div>
+        <ViewToggle view={view} onChange={handleViewChange} />
       </div>
 
       {error && (
@@ -197,15 +211,109 @@ const Orders: React.FC = () => {
         </div>
       )}
 
-      <KanbanBoard
-        items={orders}
-        columns={ORDER_COLUMNS}
-        getItemStatus={(order) => order.status}
-        onStatusChange={handleStatusChange}
-        onItemClick={handleItemClick}
-        renderCard={renderOrderCard}
-        isLoading={isLoading}
-      />
+      {view === 'kanban' ? (
+        <KanbanBoard
+          items={orders}
+          columns={ORDER_COLUMNS}
+          getItemStatus={(order) => order.status}
+          onStatusChange={handleStatusChange}
+          onItemClick={handleItemClick}
+          renderCard={renderOrderCard}
+          isLoading={isLoading}
+        />
+      ) : (
+        <ListView
+          items={orders}
+          columns={[
+            {
+              key: 'status',
+              label: 'Статус',
+              width: 'w-40',
+              render: (order) => {
+                const statusConfig = STATUS_CONFIG[order.status] || STATUS_CONFIG.new;
+                return (
+                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${statusConfig.bg} ${statusConfig.text}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dot}`} />
+                    {statusConfig.label}
+                  </span>
+                );
+              },
+            },
+            {
+              key: 'customer',
+              label: 'Клиент',
+              render: (order) => (
+                <div>
+                  <p className="font-medium text-gray-900">{order.sender_name || 'Без имени'}</p>
+                  <p className="text-xs text-gray-500">{order.sender_email || order.sender_phone || '—'}</p>
+                </div>
+              ),
+            },
+            {
+              key: 'route',
+              label: 'Маршрут',
+              width: 'w-48',
+              render: (order) => (
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="font-medium">{order.sender_country || '?'}</span>
+                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                  <span className="font-medium">{order.recipient_country || '?'}</span>
+                </div>
+              ),
+            },
+            {
+              key: 'details',
+              label: 'Детали',
+              width: 'w-32',
+              render: (order) => (
+                <div className="flex items-center gap-2">
+                  {order.weight_kg && (
+                    <span className="text-sm text-gray-600">{order.weight_kg} кг</span>
+                  )}
+                  {order.items && order.items.length > 0 && (
+                    <span className="text-xs text-gray-400">
+                      {order.items.length} {order.items.length === 1 ? 'тов.' : 'тов.'}
+                    </span>
+                  )}
+                </div>
+              ),
+            },
+            {
+              key: 'value',
+              label: 'Стоимость',
+              width: 'w-32',
+              render: (order) => {
+                const totalValue = calculateTotalValue(order.items);
+                return (
+                  <div className="flex items-center gap-2">
+                    {order.agree_insurance && (
+                      <span title="Страховка">🛡️</span>
+                    )}
+                    {totalValue > 0 && (
+                      <span className="font-semibold text-green-600">
+                        {totalValue.toFixed(0)}€
+                      </span>
+                    )}
+                  </div>
+                );
+              },
+            },
+            {
+              key: 'date',
+              label: 'Дата',
+              width: 'w-32',
+              render: (order) => (
+                <span className="text-gray-500">{formatDate(order.created_at)}</span>
+              ),
+            },
+          ]}
+          onItemClick={handleItemClick}
+          getItemKey={(order) => order.id}
+          isLoading={isLoading}
+        />
+      )}
 
       <ItemModal
         isOpen={isModalOpen}

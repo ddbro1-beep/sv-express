@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Layout from '../components/Layout';
 import KanbanBoard, { KanbanColumn } from '../components/KanbanBoard';
+import ListView from '../components/ListView';
+import ViewToggle from '../components/ViewToggle';
 import ItemModal from '../components/ItemModal';
 import { leadsApi, Lead } from '../api/leads';
 
@@ -33,6 +35,10 @@ const Dashboard: React.FC = () => {
   const [error, setError] = useState('');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [view, setView] = useState<'kanban' | 'list'>(() => {
+    const saved = localStorage.getItem('leads-view');
+    return (saved === 'kanban' || saved === 'list') ? saved : 'list';
+  });
 
   useEffect(() => {
     loadLeads();
@@ -94,6 +100,11 @@ const Dashboard: React.FC = () => {
     await leadsApi.deleteLead(id);
     // Remove from local state
     setLeads(leads.filter(lead => lead.id !== id));
+  };
+
+  const handleViewChange = (newView: 'kanban' | 'list') => {
+    setView(newView);
+    localStorage.setItem('leads-view', newView);
   };
 
   const formatDate = (dateString: string) => {
@@ -161,9 +172,12 @@ const Dashboard: React.FC = () => {
 
   return (
     <Layout>
-      <div className="mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Заявки</h1>
-        <p className="text-sm sm:text-base text-gray-600">Заявки на расчёт стоимости с лендинга</p>
+      <div className="mb-6 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Заявки</h1>
+          <p className="text-sm sm:text-base text-gray-600">Заявки на расчёт стоимости с лендинга</p>
+        </div>
+        <ViewToggle view={view} onChange={handleViewChange} />
       </div>
 
       {error && (
@@ -175,15 +189,82 @@ const Dashboard: React.FC = () => {
         </div>
       )}
 
-      <KanbanBoard
-        items={leads}
-        columns={LEAD_COLUMNS}
-        getItemStatus={(lead) => lead.status}
-        onStatusChange={handleStatusChange}
-        onItemClick={handleItemClick}
-        renderCard={renderLeadCard}
-        isLoading={isLoading}
-      />
+      {view === 'kanban' ? (
+        <KanbanBoard
+          items={leads}
+          columns={LEAD_COLUMNS}
+          getItemStatus={(lead) => lead.status}
+          onStatusChange={handleStatusChange}
+          onItemClick={handleItemClick}
+          renderCard={renderLeadCard}
+          isLoading={isLoading}
+        />
+      ) : (
+        <ListView
+          items={leads}
+          columns={[
+            {
+              key: 'status',
+              label: 'Статус',
+              width: 'w-40',
+              render: (lead) => {
+                const statusConfig = STATUS_CONFIG[lead.status] || STATUS_CONFIG.new;
+                return (
+                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${statusConfig.bg} ${statusConfig.text}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dot}`} />
+                    {statusConfig.label}
+                  </span>
+                );
+              },
+            },
+            {
+              key: 'contact',
+              label: 'Контакт',
+              render: (lead) => (
+                <div>
+                  <p className="font-medium text-gray-900">{lead.name || 'Без имени'}</p>
+                  <p className="text-xs text-gray-500">{lead.phone || lead.email || '—'}</p>
+                </div>
+              ),
+            },
+            {
+              key: 'route',
+              label: 'Маршрут',
+              width: 'w-48',
+              render: (lead) => (
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">{getCountryFlag(lead.origin_country?.code)}</span>
+                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                  <span className="text-xl">{getCountryFlag(lead.destination_country?.code)}</span>
+                </div>
+              ),
+            },
+            {
+              key: 'weight',
+              label: 'Вес',
+              width: 'w-24',
+              render: (lead) => (
+                <span className="text-gray-900">
+                  {lead.weight_estimate_kg ? `~${lead.weight_estimate_kg} кг` : '—'}
+                </span>
+              ),
+            },
+            {
+              key: 'date',
+              label: 'Дата',
+              width: 'w-32',
+              render: (lead) => (
+                <span className="text-gray-500">{formatDate(lead.created_at)}</span>
+              ),
+            },
+          ]}
+          onItemClick={handleItemClick}
+          getItemKey={(lead) => lead.id}
+          isLoading={isLoading}
+        />
+      )}
 
       <ItemModal
         isOpen={isModalOpen}
