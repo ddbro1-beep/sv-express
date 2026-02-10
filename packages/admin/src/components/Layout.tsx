@@ -14,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navItems = [
     { path: '/', label: 'Заявки', icon: '📋' },
     { path: '/orders', label: 'Заказы', icon: '📦' },
+    { path: '/settings', label: 'Настройки', icon: '⚙️' },
   ];
 
   const toggleMobileMenu = () => {
@@ -145,6 +146,29 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               SV Express Admin v1.0
             </p>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Quick Nav */}
+      <div className="sm:hidden bg-white border-b border-gray-200 px-4 py-2">
+        <div className="flex gap-2">
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium transition-colors touch-manipulation ${
+                  isActive
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-gray-100 text-gray-600 active:bg-gray-200'
+                }`}
+              >
+                <span>{item.icon}</span>
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
       </div>
 

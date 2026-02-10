@@ -18,20 +18,13 @@ export const requireAuth = (
 ) => {
   try {
     const authHeader = req.headers.authorization;
-    let token: string | undefined;
 
-    // Check Authorization header first
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      token = authHeader.split(' ')[1];
-    }
-    // Fallback to query string token (for PDF downloads in new window)
-    else if (req.query.token && typeof req.query.token === 'string') {
-      token = req.query.token;
-    }
-
-    if (!token) {
+    // Only accept tokens from Authorization header (not URL query params for security)
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new AppError('No token provided', 401);
     }
+
+    const token = authHeader.split(' ')[1];
 
     const decoded = jwt.verify(token, jwtConfig.secret) as {
       id: string;

@@ -2,6 +2,17 @@ import { Request, Response, NextFunction } from 'express';
 import { supabase } from '../config/database';
 import { AppError } from '../middleware/error.middleware';
 
+// Helper to extract error message from unknown error type
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  if (typeof error === 'object' && error !== null && 'message' in error) {
+    return String((error as { message: unknown }).message);
+  }
+  return 'Unknown error';
+}
+
 export const getCountries = async (
   req: Request,
   res: Response,
@@ -21,8 +32,8 @@ export const getCountries = async (
         countries: data || [],
       },
     });
-  } catch (error: any) {
-    next(new AppError(error.message || 'Failed to fetch countries', 500));
+  } catch (error: unknown) {
+    next(new AppError(getErrorMessage(error) || 'Failed to fetch countries', 500));
   }
 };
 
@@ -46,8 +57,8 @@ export const getOriginCountries = async (
         countries: data || [],
       },
     });
-  } catch (error: any) {
-    next(new AppError(error.message || 'Failed to fetch countries', 500));
+  } catch (error: unknown) {
+    next(new AppError(getErrorMessage(error) || 'Failed to fetch countries', 500));
   }
 };
 
@@ -71,7 +82,7 @@ export const getDestinationCountries = async (
         countries: data || [],
       },
     });
-  } catch (error: any) {
-    next(new AppError(error.message || 'Failed to fetch countries', 500));
+  } catch (error: unknown) {
+    next(new AppError(getErrorMessage(error) || 'Failed to fetch countries', 500));
   }
 };

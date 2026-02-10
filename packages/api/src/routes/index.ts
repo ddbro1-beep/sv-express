@@ -5,6 +5,9 @@ import countryRoutes from './country.routes';
 import orderRoutes from './order.routes';
 import commentRoutes from './comment.routes';
 import trackingRoutes from './tracking.routes';
+import settingsRoutes from './settings.routes';
+import keepaliveRoutes from './keepalive.routes';
+import telegramRoutes from './telegram.routes';
 
 const router = Router();
 
@@ -14,6 +17,9 @@ router.use('/countries', countryRoutes);
 router.use('/orders', orderRoutes);
 router.use('/comments', commentRoutes);
 router.use('/tracking', trackingRoutes);
+router.use('/settings', settingsRoutes);
+router.use('/keepalive', keepaliveRoutes);
+router.use('/telegram', telegramRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {

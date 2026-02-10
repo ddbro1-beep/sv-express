@@ -2,6 +2,49 @@ import { Response, NextFunction } from 'express';
 import { AuthRequest } from '../middleware/auth.middleware';
 import supabase from '../config/database';
 import { AppError } from '../middleware/error.middleware';
+import { escapeHtml } from '../utils/sanitize';
+import { createOrderSchema } from '../validators/order.validator';
+import { ZodError } from 'zod';
+import { notifyAdmin } from '../services/telegram.service';
+
+// Order item interface
+interface OrderItem {
+  description: string;
+  quantity: number;
+  price: number;
+}
+
+// Order data interface for PDF generation
+interface OrderData {
+  id: string;
+  sender_name?: string;
+  sender_email?: string;
+  sender_phone?: string;
+  sender_address?: string;
+  sender_address2?: string;
+  sender_postcode?: string;
+  sender_city?: string;
+  sender_country?: string;
+  recipient_name?: string;
+  recipient_phone?: string;
+  recipient_street?: string;
+  recipient_house?: string;
+  recipient_apartment?: string;
+  recipient_postcode?: string;
+  recipient_city?: string;
+  recipient_region?: string;
+  recipient_country?: string;
+  recipient_delivery_service?: string;
+  weight_kg?: number;
+  length_cm?: number;
+  width_cm?: number;
+  height_cm?: number;
+  items?: OrderItem[];
+  collection_method?: string;
+  collection_date?: string;
+  collection_time?: string;
+  created_at: string;
+}
 
 // Create order (public endpoint from landing page)
 export const createOrder = async (
@@ -10,6 +53,9 @@ export const createOrder = async (
   next: NextFunction
 ) => {
   try {
+    // Validate input using Zod schema
+    const validatedData = createOrderSchema.parse(req.body);
+
     const {
       // Sender
       sender_email,
@@ -48,7 +94,7 @@ export const createOrder = async (
       agree_terms,
       agree_overweight,
       agree_insurance,
-    } = req.body;
+    } = validatedData;
 
     console.log('[ORDER] Creating new order from:', sender_email);
 
@@ -73,10 +119,10 @@ export const createOrder = async (
         recipient_apartment,
         recipient_postcode,
         recipient_delivery_service: delivery_service,
-        weight_kg: parseFloat(parcel_weight) || null,
-        length_cm: parseInt(parcel_length) || null,
-        width_cm: parseInt(parcel_width) || null,
-        height_cm: parseInt(parcel_height) || null,
+        weight_kg: parcel_weight ? parseFloat(String(parcel_weight)) : null,
+        length_cm: parcel_length ? parseInt(String(parcel_length), 10) : null,
+        width_cm: parcel_width ? parseInt(String(parcel_width), 10) : null,
+        height_cm: parcel_height ? parseInt(String(parcel_height), 10) : null,
         items: items || [],
         collection_method,
         collection_date: collection_date || null,
@@ -97,11 +143,54 @@ export const createOrder = async (
 
     console.log('[ORDER] Order created successfully:', data.id);
 
+    // Send Telegram notification to admin
+    try {
+      const countryEmoji = (code: string) => {
+        const codePoints = code
+          .toUpperCase()
+          .split('')
+          .map((char) => 127397 + char.charCodeAt(0));
+        return String.fromCodePoint(...codePoints);
+      };
+
+      const itemsCount = items?.length || 0;
+      const totalValue = (items || []).reduce((sum, item) => sum + ((Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
+
+      await notifyAdmin(
+        `📦 <b>Новый заказ</b>\n\n` +
+        `👤 <b>Отправитель:</b> ${sender_name}\n` +
+        `📧 ${sender_email}\n` +
+        `📱 ${sender_phone || '-'}\n\n` +
+        `🌍 <b>Маршрут:</b> ${sender_country} → ${recipient_country}\n` +
+        `📍 <b>Город:</b> ${sender_city} → ${recipient_city}\n` +
+        `⚖️ <b>Вес:</b> ${parcel_weight || '?'} кг\n` +
+        `📏 <b>Размеры:</b> ${parcel_length || '?'} × ${parcel_width || '?'} × ${parcel_height || '?'} см\n\n` +
+        `📋 <b>Товаров:</b> ${itemsCount} шт.\n` +
+        `💰 <b>Ценность:</b> ${totalValue.toFixed(2)} €\n\n` +
+        `🚚 <b>Забор:</b> ${collection_method === 'courier' ? `Курьер (${collection_date || '?'})` : 'Самостоятельно'}\n` +
+        `💳 <b>Оплата:</b> ${payment_method === 'card' ? 'Карта' : payment_method === 'cash' ? 'Наличные' : payment_method}\n\n` +
+        `<code>ID: ${data.id}</code>`
+      );
+    } catch (notifyError) {
+      // Не прерываем выполнение если уведомление не отправилось
+      console.error('[TELEGRAM] Failed to send order notification:', notifyError);
+    }
+
     res.status(201).json({
       success: true,
       data,
     });
   } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        success: false,
+        error: 'Validation failed',
+        details: error.issues.map((issue) => ({
+          field: issue.path.join('.'),
+          message: issue.message,
+        })),
+      });
+    }
     next(error);
   }
 };
@@ -219,6 +308,31 @@ export const updateOrder = async (
   }
 };
 
+// Delete order (admin)
+export const deleteOrder = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+
+    const { error } = await supabase
+      .from('orders')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw new AppError(error.message, 500);
+
+    res.json({
+      success: true,
+      message: 'Order deleted successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Generate PDF for order (admin)
 export const getOrderPdf = async (
   req: AuthRequest,
@@ -247,26 +361,29 @@ export const getOrderPdf = async (
   }
 };
 
-// Helper function to generate printable HTML
-function generateOrderHtml(order: Record<string, unknown>): string {
-  const items = (order.items as Array<{description: string; quantity: number; price: number}>) || [];
+// Helper function to generate printable HTML with XSS protection
+function generateOrderHtml(order: OrderData): string {
+  const items = order.items || [];
   const itemsHtml = items.map((item, idx) => `
     <tr>
       <td style="border: 1px solid #ddd; padding: 8px;">${idx + 1}</td>
-      <td style="border: 1px solid #ddd; padding: 8px;">${item.description || '-'}</td>
-      <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${item.quantity || 1}</td>
-      <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${item.price || 0} €</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">${escapeHtml(item.description) || '-'}</td>
+      <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${Number(item.quantity) || 1}</td>
+      <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${Number(item.price) || 0} €</td>
     </tr>
   `).join('');
 
-  const totalValue = items.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+  const totalValue = items.reduce((sum, item) => sum + ((Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
+
+  // Escape all user-provided fields
+  const esc = escapeHtml;
 
   return `
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Order Declaration - ${order.id}</title>
+  <title>Order Declaration - ${esc(order.id)}</title>
   <style>
     * { box-sizing: border-box; font-family: Arial, sans-serif; }
     body { margin: 0; padding: 20px; font-size: 14px; }
@@ -299,7 +416,7 @@ function generateOrderHtml(order: Record<string, unknown>): string {
   <div class="header">
     <h1>SV EXPRESS</h1>
     <p>Customs Declaration / Таможенная декларация</p>
-    <p class="order-id">Order ID: ${order.id}</p>
+    <p class="order-id">Order ID: ${esc(order.id)}</p>
   </div>
 
   <div class="grid">
@@ -307,22 +424,22 @@ function generateOrderHtml(order: Record<string, unknown>): string {
       <div class="section-title">Sender / Отправитель</div>
       <div class="field">
         <div class="field-label">Name / Имя</div>
-        <div class="field-value">${order.sender_name || '-'}</div>
+        <div class="field-value">${esc(order.sender_name) || '-'}</div>
       </div>
       <div class="field">
         <div class="field-label">Email</div>
-        <div class="field-value">${order.sender_email || '-'}</div>
+        <div class="field-value">${esc(order.sender_email) || '-'}</div>
       </div>
       <div class="field">
         <div class="field-label">Phone / Телефон</div>
-        <div class="field-value">${order.sender_phone || '-'}</div>
+        <div class="field-value">${esc(order.sender_phone) || '-'}</div>
       </div>
       <div class="field">
         <div class="field-label">Address / Адрес</div>
         <div class="field-value">
-          ${order.sender_address || ''}${order.sender_address2 ? ', ' + order.sender_address2 : ''}<br>
-          ${order.sender_postcode || ''} ${order.sender_city || ''}<br>
-          ${order.sender_country || ''}
+          ${esc(order.sender_address) || ''}${order.sender_address2 ? ', ' + esc(order.sender_address2) : ''}<br>
+          ${esc(order.sender_postcode) || ''} ${esc(order.sender_city) || ''}<br>
+          ${esc(order.sender_country) || ''}
         </div>
       </div>
     </div>
@@ -331,23 +448,23 @@ function generateOrderHtml(order: Record<string, unknown>): string {
       <div class="section-title">Recipient / Получатель</div>
       <div class="field">
         <div class="field-label">Name / Имя</div>
-        <div class="field-value">${order.recipient_name || '-'}</div>
+        <div class="field-value">${esc(order.recipient_name) || '-'}</div>
       </div>
       <div class="field">
         <div class="field-label">Phone / Телефон</div>
-        <div class="field-value">${order.recipient_phone || '-'}</div>
+        <div class="field-value">${esc(order.recipient_phone) || '-'}</div>
       </div>
       <div class="field">
         <div class="field-label">Address / Адрес</div>
         <div class="field-value">
-          ${order.recipient_street || ''} ${order.recipient_house || ''}${order.recipient_apartment ? ', кв. ' + order.recipient_apartment : ''}<br>
-          ${order.recipient_postcode || ''} ${order.recipient_city || ''}<br>
-          ${order.recipient_region ? order.recipient_region + ', ' : ''}${order.recipient_country || ''}
+          ${esc(order.recipient_street) || ''} ${esc(order.recipient_house) || ''}${order.recipient_apartment ? ', кв. ' + esc(order.recipient_apartment) : ''}<br>
+          ${esc(order.recipient_postcode) || ''} ${esc(order.recipient_city) || ''}<br>
+          ${order.recipient_region ? esc(order.recipient_region) + ', ' : ''}${esc(order.recipient_country) || ''}
         </div>
       </div>
       <div class="field">
         <div class="field-label">Delivery Service / Служба доставки</div>
-        <div class="field-value">${order.recipient_delivery_service || '-'}</div>
+        <div class="field-value">${esc(order.recipient_delivery_service) || '-'}</div>
       </div>
     </div>
   </div>
@@ -357,11 +474,11 @@ function generateOrderHtml(order: Record<string, unknown>): string {
     <div class="grid">
       <div class="field">
         <div class="field-label">Weight / Вес</div>
-        <div class="field-value">${order.weight_kg || '-'} kg</div>
+        <div class="field-value">${order.weight_kg ?? '-'} kg</div>
       </div>
       <div class="field">
         <div class="field-label">Dimensions / Размеры (L × W × H)</div>
-        <div class="field-value">${order.length_cm || '-'} × ${order.width_cm || '-'} × ${order.height_cm || '-'} cm</div>
+        <div class="field-value">${order.length_cm ?? '-'} × ${order.width_cm ?? '-'} × ${order.height_cm ?? '-'} cm</div>
       </div>
     </div>
   </div>
@@ -399,14 +516,14 @@ function generateOrderHtml(order: Record<string, unknown>): string {
       ${order.collection_method === 'courier' ? `
       <div class="field">
         <div class="field-label">Date & Time / Дата и время</div>
-        <div class="field-value">${order.collection_date || '-'} ${order.collection_time === 'morning' ? '09:00-12:00' : '12:00-18:00'}</div>
+        <div class="field-value">${esc(order.collection_date) || '-'} ${order.collection_time === 'morning' ? '09:00-12:00' : '12:00-18:00'}</div>
       </div>
       ` : ''}
     </div>
   </div>
 
   <div class="footer">
-    <p>Created / Создано: ${new Date(order.created_at as string).toLocaleString('ru-RU')}</p>
+    <p>Created / Создано: ${new Date(order.created_at).toLocaleString('ru-RU')}</p>
     <p>SV EXPRESS | info.svexpress@gmail.com | +33 753 54 04 36</p>
   </div>
 </body>
@@ -414,4 +531,4 @@ function generateOrderHtml(order: Record<string, unknown>): string {
   `;
 }
 
-export default { createOrder, getOrders, getOrder, updateOrder, getOrderPdf };
+export default { createOrder, getOrders, getOrder, updateOrder, deleteOrder, getOrderPdf };

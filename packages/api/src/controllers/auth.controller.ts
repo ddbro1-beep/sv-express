@@ -97,13 +97,15 @@ export const refreshToken = async (
     // Проверить refresh token
     const payload = verifyRefreshToken(refreshToken);
 
-    // Генерировать новый access token
+    // Генерировать новый access token и новый refresh token (ротация)
     const newAccessToken = generateAccessToken(payload);
+    const newRefreshToken = generateRefreshToken(payload);
 
     res.json({
       success: true,
       data: {
         token: newAccessToken,
+        refreshToken: newRefreshToken,
       },
     });
   } catch (error) {

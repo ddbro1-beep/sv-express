@@ -23,8 +23,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const savedUser = localStorage.getItem('user');
 
     if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+      try {
+        setToken(savedToken);
+        setUser(JSON.parse(savedUser) as User);
+      } catch (error) {
+        // Invalid JSON in localStorage, clear it
+        console.error('Error parsing user from localStorage:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('refreshToken');
+      }
     }
 
     setIsLoading(false);
@@ -44,8 +52,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       // Обновить state
       setToken(token);
       setUser(user);
-    } catch (error: any) {
-      throw new Error(error.response?.data?.error || 'Login failed');
+    } catch (error) {
+      // Handle axios error response
+      const axiosError = error as { response?: { data?: { error?: string } } };
+      throw new Error(axiosError.response?.data?.error || 'Login failed');
     }
   };
 

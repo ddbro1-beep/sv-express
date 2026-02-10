@@ -2,6 +2,9 @@ import { Response, NextFunction } from 'express';
 import { AuthRequest } from '../middleware/auth.middleware';
 import supabase from '../config/database';
 import { AppError } from '../middleware/error.middleware';
+import { createLeadSchema } from '../validators/lead.validator';
+import { ZodError } from 'zod';
+import { notifyAdmin } from '../services/telegram.service';
 
 // Создать заявку (публичный endpoint для лендинга)
 export const createLead = async (
@@ -10,7 +13,10 @@ export const createLead = async (
   next: NextFunction
 ) => {
   try {
-    const { name, email, phone, originCountryId, destinationCountryId, weightEstimateKg, shipmentType, message } = req.body;
+    // Validate input using Zod schema
+    const validatedData = createLeadSchema.parse(req.body);
+
+    const { name, email, phone, originCountryId, destinationCountryId, weightEstimateKg, shipmentType, message } = validatedData;
 
     const { data, error } = await supabase
       .from('leads')
@@ -30,11 +36,61 @@ export const createLead = async (
 
     if (error) throw new AppError(error.message, 500);
 
+    // Send Telegram notification to admin
+    try {
+      const { data: originCountry } = await supabase
+        .from('countries')
+        .select('name_ru, code')
+        .eq('id', originCountryId)
+        .single();
+
+      const { data: destCountry } = await supabase
+        .from('countries')
+        .select('name_ru, code')
+        .eq('id', destinationCountryId)
+        .single();
+
+      const countryEmoji = (code: string) => {
+        const codePoints = code
+          .toUpperCase()
+          .split('')
+          .map((char) => 127397 + char.charCodeAt(0));
+        return String.fromCodePoint(...codePoints);
+      };
+
+      const typeEmoji = shipmentType === 'document' ? '📄' : shipmentType === 'fragile' ? '📦⚠️' : '📦';
+
+      await notifyAdmin(
+        `🆕 <b>Новая заявка</b>\n\n` +
+        `👤 <b>Клиент:</b> ${name}\n` +
+        `📧 ${email || '-'}\n` +
+        `📱 ${phone || '-'}\n\n` +
+        `${typeEmoji} <b>Тип:</b> ${shipmentType === 'document' ? 'Документы' : shipmentType === 'fragile' ? 'Хрупкое' : 'Посылка'}\n` +
+        `⚖️ <b>Вес:</b> ~${weightEstimateKg} кг\n` +
+        `🌍 <b>Маршрут:</b> ${countryEmoji(originCountry?.code || '')} ${originCountry?.name_ru || 'Unknown'} → ${countryEmoji(destCountry?.code || '')} ${destCountry?.name_ru || 'Unknown'}\n\n` +
+        `💬 ${message || 'Без комментария'}` +
+        `\n\n<code>ID: ${data.id}</code>`
+      );
+    } catch (notifyError) {
+      // Не прерываем выполнение если уведомление не отправилось
+      console.error('[TELEGRAM] Failed to send lead notification:', notifyError);
+    }
+
     res.status(201).json({
       success: true,
       data,
     });
   } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        success: false,
+        error: 'Validation failed',
+        details: error.issues.map((issue) => ({
+          field: issue.path.join('.'),
+          message: issue.message,
+        })),
+      });
+    }
     next(error);
   }
 };
@@ -162,4 +218,29 @@ export const updateLead = async (
   }
 };
 
-export default { createLead, getLeads, getLead, updateLead };
+// Delete lead (admin)
+export const deleteLead = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+
+    const { error } = await supabase
+      .from('leads')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw new AppError(error.message, 500);
+
+    res.json({
+      success: true,
+      message: 'Lead deleted successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { createLead, getLeads, getLead, updateLead, deleteLead };

@@ -77,10 +77,33 @@ export const ordersApi = {
     return response.data;
   },
 
-  getOrderPdfUrl: (id: string): string => {
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
-    const token = localStorage.getItem('sv-admin-token');
-    return `${baseUrl}/orders/${id}/pdf?token=${token}`;
+  deleteOrder: async (id: string) => {
+    const response = await apiClient.delete(`/orders/${id}`);
+    return response.data;
+  },
+
+  /**
+   * Fetches PDF HTML content and opens it in a new window
+   * Uses Authorization header instead of URL token for security
+   */
+  openOrderPdf: async (id: string): Promise<void> => {
+    try {
+      const response = await apiClient.get(`/orders/${id}/pdf`, {
+        responseType: 'text',
+      });
+
+      // Open HTML content in a new window
+      const newWindow = window.open('', '_blank');
+      if (newWindow) {
+        newWindow.document.write(response.data);
+        newWindow.document.close();
+      } else {
+        throw new Error('Popup blocked. Please allow popups for this site.');
+      }
+    } catch (error) {
+      console.error('Error fetching PDF:', error);
+      throw error;
+    }
   },
 };
 

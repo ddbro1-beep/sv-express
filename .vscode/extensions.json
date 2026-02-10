@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "usernamehw.errorlens",
+    "bradlc.vscode-tailwindcss",
+    "pranaygp.vscode-css-peek",
+    "christian-kohler.path-intellisense",
+    "eamodio.gitlens",
+    "orta.vscode-jest",
+    "ms-playwright.playwright",
+    "rangav.vscode-thunder-client",
+    "snyk-security.snyk-vulnerability-scanner",
+    "anthropic.claude-code"
+  ],
+  "unwantedRecommendations": []
+}

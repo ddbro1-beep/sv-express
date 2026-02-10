@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import toast from 'react-hot-toast';
 import { commentsApi, Comment } from '../api/comments';
 
 interface TimelineProps {
@@ -13,11 +14,7 @@ const Timeline: React.FC<TimelineProps> = ({ entityType, entityId, createdAt }) 
   const [isLoading, setIsLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
 
-  useEffect(() => {
-    loadComments();
-  }, [entityType, entityId]);
-
-  const loadComments = async () => {
+  const loadComments = useCallback(async () => {
     setIsLoading(true);
     try {
       const data = await commentsApi.getComments(entityType, entityId);
@@ -27,7 +24,11 @@ const Timeline: React.FC<TimelineProps> = ({ entityType, entityId, createdAt }) 
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [entityType, entityId]);
+
+  useEffect(() => {
+    loadComments();
+  }, [loadComments]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,9 +39,10 @@ const Timeline: React.FC<TimelineProps> = ({ entityType, entityId, createdAt }) 
       const comment = await commentsApi.addComment(entityType, entityId, newComment.trim());
       setComments([...comments, comment]);
       setNewComment('');
+      toast.success('Комментарий добавлен');
     } catch (error) {
       console.error('Error adding comment:', error);
-      alert('Ошибка добавления комментария');
+      toast.error('Ошибка добавления комментария');
     } finally {
       setIsSending(false);
     }

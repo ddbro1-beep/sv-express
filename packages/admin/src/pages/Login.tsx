@@ -19,8 +19,9 @@ const Login: React.FC = () => {
     try {
       await login(email, password);
       navigate('/');
-    } catch (err: any) {
-      setError(err.message || 'Ошибка входа');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Ошибка входа';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

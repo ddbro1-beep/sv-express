@@ -50,6 +50,11 @@ export const leadsApi = {
     const response = await apiClient.put(`/leads/${id}`, data);
     return response.data;
   },
+
+  deleteLead: async (id: string) => {
+    const response = await apiClient.delete(`/leads/${id}`);
+    return response.data;
+  },
 };
 
 export default leadsApi;

@@ -666,10 +666,7 @@
                 submitBtn.innerHTML = `<span class="iconify animate-spin" data-icon="lucide:loader-2" data-width="20"></span> ${t('order.submit.sending')}`;
 
                 try {
-                    // Use local API for development, production URL for deployed version
-                    const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                        ? 'http://localhost:3000/api/orders'
-                        : 'https://sv-express-api.vercel.app/api/orders';
+                    const apiUrl = (window.SV_EXPRESS_API_URL || 'https://api.sv-express.com') + '/api/orders';
                     const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -703,6 +700,7 @@
     </a>
 
     <script src="assets/js/translations.js"></script>
+    <script src="assets/js/config.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>
