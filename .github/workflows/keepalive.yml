@@ -1,0 +1,50 @@
+name: Keep Supabase Alive
+
+# Run every 6 days at 3:00 AM UTC
+on:
+  schedule:
+    - cron: '0 3 */6 * *'
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Keep-Alive Endpoint
+        run: |
+          response=$(curl -s -w "\n%{http_code}" -X POST \
+            -H "Content-Type: application/json" \
+            -H "X-Keepalive-Secret: ${{ secrets.KEEPALIVE_SECRET }}" \
+            -d '{"status":"ok"}' \
+            "${{ secrets.API_URL }}/keepalive/log")
+
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | head -n-1)
+
+          echo "HTTP Status: $http_code"
+          echo "Response: $body"
+
+          if [ "$http_code" != "200" ]; then
+            echo "❌ Keep-alive ping failed!"
+            exit 1
+          fi
+
+          echo "✅ Keep-alive ping successful!"
+
+      - name: Ping Supabase directly
+        run: |
+          response=$(curl -s -w "\n%{http_code}" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/")
+
+          http_code=$(echo "$response" | tail -n1)
+
+          echo "Supabase HTTP Status: $http_code"
+
+          if [ "$http_code" != "200" ]; then
+            echo "⚠️  Supabase ping returned non-200 status"
+          else
+            echo "✅ Supabase is alive!"
+          fi
