@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Layout from '../components/Layout';
 import KanbanBoard, { KanbanColumn } from '../components/KanbanBoard';
@@ -30,6 +31,7 @@ const STATUS_CONFIG: Record<string, { bg: string; text: string; dot: string; lab
 };
 
 const Dashboard: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -43,6 +45,19 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     loadLeads();
   }, []);
+
+  // Open lead from URL parameter (?lead=ID)
+  useEffect(() => {
+    const leadId = searchParams.get('lead');
+    if (leadId && leads.length > 0) {
+      const lead = leads.find(l => l.id === leadId);
+      if (lead) {
+        setSelectedLead(lead);
+        setIsModalOpen(true);
+        setSearchParams({}, { replace: true });
+      }
+    }
+  }, [leads, searchParams]);
 
   const loadLeads = async () => {
     setIsLoading(true);

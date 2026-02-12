@@ -156,6 +156,8 @@ export const createOrder = async (
       const itemsCount = items?.length || 0;
       const totalValue = (items || []).reduce((sum, item) => sum + ((Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
 
+      const adminUrl = 'https://admin.sv-express.com';
+
       await notifyAdmin(
         `📦 <b>Новый заказ</b>\n\n` +
         `👤 <b>Отправитель:</b> ${sender_name}\n` +
@@ -169,7 +171,7 @@ export const createOrder = async (
         `💰 <b>Ценность:</b> ${totalValue.toFixed(2)} €\n\n` +
         `🚚 <b>Забор:</b> ${collection_method === 'courier' ? `Курьер (${collection_date || '?'})` : 'Самостоятельно'}\n` +
         `💳 <b>Оплата:</b> ${payment_method === 'card' ? 'Карта' : payment_method === 'cash' ? 'Наличные' : payment_method}\n\n` +
-        `<code>ID: ${data.id}</code>`
+        `🔗 <a href="${adminUrl}/orders?order=${data.id}">Открыть заказ</a>`
       );
     } catch (notifyError) {
       // Не прерываем выполнение если уведомление не отправилось

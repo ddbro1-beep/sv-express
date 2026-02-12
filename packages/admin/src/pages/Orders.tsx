@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Layout from '../components/Layout';
 import KanbanBoard, { KanbanColumn } from '../components/KanbanBoard';
@@ -33,6 +34,7 @@ const STATUS_CONFIG: Record<string, { bg: string; text: string; dot: string; lab
 };
 
 const Orders: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -46,6 +48,19 @@ const Orders: React.FC = () => {
   useEffect(() => {
     loadOrders();
   }, []);
+
+  // Open order from URL parameter (?order=ID)
+  useEffect(() => {
+    const orderId = searchParams.get('order');
+    if (orderId && orders.length > 0) {
+      const order = orders.find(o => o.id === orderId);
+      if (order) {
+        setSelectedOrder(order);
+        setIsModalOpen(true);
+        setSearchParams({}, { replace: true });
+      }
+    }
+  }, [orders, searchParams]);
 
   const loadOrders = async () => {
     setIsLoading(true);

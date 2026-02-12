@@ -60,6 +60,8 @@ export const createLead = async (
 
       const typeEmoji = shipmentType === 'document' ? '📄' : shipmentType === 'fragile' ? '📦⚠️' : '📦';
 
+      const adminUrl = 'https://admin.sv-express.com';
+
       await notifyAdmin(
         `🆕 <b>Новая заявка</b>\n\n` +
         `👤 <b>Клиент:</b> ${name}\n` +
@@ -69,7 +71,7 @@ export const createLead = async (
         `⚖️ <b>Вес:</b> ~${weightEstimateKg} кг\n` +
         `🌍 <b>Маршрут:</b> ${countryEmoji(originCountry?.code || '')} ${originCountry?.name_ru || 'Unknown'} → ${countryEmoji(destCountry?.code || '')} ${destCountry?.name_ru || 'Unknown'}\n\n` +
         `💬 ${message || 'Без комментария'}` +
-        `\n\n<code>ID: ${data.id}</code>`
+        `\n\n🔗 <a href="${adminUrl}/?lead=${data.id}">Открыть заявку</a>`
       );
     } catch (notifyError) {
       // Не прерываем выполнение если уведомление не отправилось

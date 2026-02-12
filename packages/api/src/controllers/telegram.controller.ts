@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express';
 import { AuthRequest } from '../middleware/auth.middleware';
 import supabase from '../config/database';
-import { sendMessage } from '../services/telegram.service';
+import { sendMessage, getAvailableChats } from '../services/telegram.service';
 import { AppError } from '../middleware/error.middleware';
 
 // Send a test message to verify Telegram configuration
@@ -90,4 +90,48 @@ export const sendNotification = async (
   }
 };
 
-export default { sendTestMessage, sendNotification };
+// Get available chats from Telegram (via getUpdates)
+export const getChats = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    let { botToken } = req.body;
+
+    // If no token provided or token is masked, get from DB
+    if (!botToken || botToken.includes('***')) {
+      console.log('[TELEGRAM] Token not provided or masked, fetching from DB...');
+
+      const { data: settings, error } = await supabase
+        .from('settings')
+        .select('key, value')
+        .eq('key', 'telegram_bot_token')
+        .single();
+
+      if (error || !settings?.value) {
+        throw new AppError('Bot token not found in settings. Please enter a token first.', 400);
+      }
+
+      botToken = settings.value;
+      console.log('[TELEGRAM] Using saved token from DB');
+    }
+
+    console.log('[TELEGRAM] Getting available chats...');
+    const chats = await getAvailableChats(botToken);
+
+    if (!chats || chats.length === 0) {
+      throw new AppError(
+        'No chats found. Please send a message to the bot first.',
+        404
+      );
+    }
+
+    console.log('[TELEGRAM] Found chats:', chats.length);
+    res.json({ success: true, data: { chats } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { sendTestMessage, sendNotification, getChats };

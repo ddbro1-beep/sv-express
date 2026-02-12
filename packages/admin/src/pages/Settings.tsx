@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import Layout from '../components/Layout';
 import settingsApi, { Setting } from '../api/settings';
-import telegramApi from '../api/telegram';
+import telegramApi, { AvailableChat } from '../api/telegram';
 
 const Settings: React.FC = () => {
   const [settings, setSettings] = useState<Setting[]>([]);
@@ -15,6 +15,12 @@ const Settings: React.FC = () => {
   const [chatId, setChatId] = useState('');
   const [enabled, setEnabled] = useState(false);
   const [botTokenChanged, setBotTokenChanged] = useState(false);
+  const [tokenIsMasked, setTokenIsMasked] = useState(false);
+
+  // Chat discovery
+  const [loadingChats, setLoadingChats] = useState(false);
+  const [availableChats, setAvailableChats] = useState<AvailableChat[]>([]);
+  const [showChatSelector, setShowChatSelector] = useState(false);
 
   const getSettingValue = (data: Setting[], key: string): string | null => {
     return data.find((s) => s.key === key)?.value || null;
@@ -24,10 +30,12 @@ const Settings: React.FC = () => {
     try {
       const data = await settingsApi.getAll();
       setSettings(data);
-      setBotToken(getSettingValue(data, 'telegram_bot_token') || '');
+      const token = getSettingValue(data, 'telegram_bot_token') || '';
+      setBotToken(token);
       setChatId(getSettingValue(data, 'telegram_chat_id') || '');
       setEnabled(getSettingValue(data, 'telegram_enabled') === 'true');
       setBotTokenChanged(false);
+      setTokenIsMasked(token.includes('***'));
     } catch {
       toast.error('Не удалось загрузить настройки');
     } finally {
@@ -67,6 +75,38 @@ const Settings: React.FC = () => {
     } finally {
       setTestingSend(false);
     }
+  };
+
+  const handleFindChats = async () => {
+    console.log('[SETTINGS] Finding chats, token:', botToken ? 'exists' : 'missing', 'masked:', tokenIsMasked);
+
+    setLoadingChats(true);
+    try {
+      console.log('[SETTINGS] Calling getChats API...');
+      // Отправляем токен (даже если замаскирован), backend сам возьмёт из БД если нужно
+      const chats = await telegramApi.getChats(botToken || '');
+      console.log('[SETTINGS] Received chats:', chats);
+
+      if (chats.length === 0) {
+        toast.error('Не найдено чатов. Отправьте боту сообщение и попробуйте снова.');
+      } else {
+        setAvailableChats(chats);
+        setShowChatSelector(true);
+        toast.success(`Найдено чатов: ${chats.length}`);
+      }
+    } catch (error: any) {
+      console.error('[SETTINGS] Error fetching chats:', error);
+      const errorMessage = error?.response?.data?.error || 'Не удалось получить чаты. Проверьте токен.';
+      toast.error(errorMessage);
+    } finally {
+      setLoadingChats(false);
+    }
+  };
+
+  const handleSelectChat = (chat: AvailableChat) => {
+    setChatId(chat.chatId);
+    setShowChatSelector(false);
+    toast.success(`Выбран: ${chat.name}`);
   };
 
   // Keep-alive data
@@ -153,33 +193,87 @@ const Settings: React.FC = () => {
                 onChange={(e) => {
                   setBotToken(e.target.value);
                   setBotTokenChanged(true);
+                  setTokenIsMasked(false);
                 }}
                 placeholder="123456789:ABCdefGhIJKlmNoPQRsTUVwxyz"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
               />
               <p className="mt-1 text-xs text-gray-400">
-                Получите у @BotFather в Telegram
+                {tokenIsMasked
+                  ? '✅ Токен сохранён и защищён'
+                  : 'Получите у @BotFather в Telegram'}
               </p>
             </div>
 
             {/* Chat ID */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Chat ID</label>
-              <input
-                type="text"
-                value={chatId}
-                onChange={(e) => setChatId(e.target.value)}
-                placeholder="-1001234567890"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={chatId}
+                  onChange={(e) => setChatId(e.target.value)}
+                  placeholder="-1001234567890"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                />
+                <button
+                  onClick={handleFindChats}
+                  disabled={loadingChats}
+                  className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors touch-manipulation whitespace-nowrap"
+                >
+                  {loadingChats ? 'Поиск...' : '🔍 Найти чаты'}
+                </button>
+              </div>
               <p className="mt-1 text-xs text-gray-400">
-                Отправьте сообщение боту, затем откройте{' '}
-                <code className="bg-gray-100 px-1 rounded">
-                  https://api.telegram.org/bot{'<TOKEN>'}/getUpdates
-                </code>{' '}
-                — Chat ID будет в поле <code className="bg-gray-100 px-1 rounded">chat.id</code>
+                💡 {tokenIsMasked
+                  ? 'Отправьте боту сообщение в Telegram, затем нажмите "Найти чаты"'
+                  : 'Сначала сохраните Bot Token, затем отправьте боту сообщение и нажмите "Найти чаты"'}
               </p>
             </div>
+
+            {/* Chat Selector Modal */}
+            {showChatSelector && availableChats.length > 0 && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-xl shadow-xl max-w-md w-full max-h-[80vh] overflow-hidden">
+                  <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Выберите чат
+                    </h3>
+                    <button
+                      onClick={() => setShowChatSelector(false)}
+                      className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+                    >
+                      ×
+                    </button>
+                  </div>
+                  <div className="overflow-y-auto max-h-[60vh]">
+                    {availableChats.map((chat) => (
+                      <button
+                        key={chat.chatId}
+                        onClick={() => handleSelectChat(chat)}
+                        className="w-full px-4 py-3 text-left hover:bg-gray-50 border-b border-gray-100 transition-colors touch-manipulation"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="font-medium text-gray-900">{chat.name}</div>
+                            <div className="text-xs text-gray-500 mt-0.5">
+                              {chat.type === 'private' && '👤 Личный чат'}
+                              {chat.type === 'group' && '👥 Группа'}
+                              {chat.type === 'supergroup' && '👥 Супергруппа'}
+                              {chat.type === 'channel' && '📢 Канал'}
+                              {chat.username && ` • @${chat.username}`}
+                            </div>
+                          </div>
+                          <div className="text-xs font-mono text-gray-400">
+                            {chat.chatId}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Enabled Toggle */}
             <div className="flex items-center justify-between">
